@@ -1,28 +1,35 @@
-import express from "express";
-import {PORT, MONGODB_URI } from "./config.js"
-import cors from "cors";
-import mongoose from "mongoose";
+const express =  require ("express");
+const cors = require('cors');
+const { PORT, connectDB } = require("./config/db");
 
-
-
+const userRoutes = require("./routes/auth");
+const restaurantRoutes = require("./routes/restaurantRoutes")
+const authMiddleware = require("./middlewares/authMiddleware");
+const roleMiddleware = require("./middlewares/roleMiddleware");
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 
 
+
+const port = PORT;
+const db = connectDB;
+
+db();
+
+app.use("/api/user",userRoutes);
+app.use("/api/restaurant",authMiddleware, restaurantRoutes);
+
 app.get("/", (req,res) => {
     res.send("API Running");
+    
 })
 
-mongoose.connect(MONGODB_URI)
-        .then(()=>{
-            console.log("App is connected to database");
-            app.listen(PORT,() => {
-                console.log(`App is listening to port:${PORT}`);
-            });
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
+app.listen(port,()=>{
+    console.log(`App listening on port ${PORT}`)
+})
+
+app.all("*",(req,res) => {
+    res.status(404).json({message:"End point does not exist"})
+})
