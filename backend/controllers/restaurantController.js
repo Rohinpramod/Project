@@ -1,15 +1,26 @@
+const { cloudinaryInstance } = require("../config/cloudinary");
 const Restaurant = require("../models/restaurantModel");
 
 exports.createRestaurant = async (req, res) => {
   try {
     const { name, location, cuisine } = req.body;
 
-  
+    if (!name || !location || !cuisine) {
+      return res.status(400).json({ message: "all fields required" });
+  }
+    // clodinaryupload
+  //   console.log(req.file, "======req.file");
+
+  //   const imageUrl = await cloudinaryInstance.uploader.upload(req.file.path).url;
+  // console.log(imageUrl,"=====imageUrl")
+
+
     const restaurant = new Restaurant({
       name,
       location,
       cuisine,
       owner: req.user.userId,
+      // image:imageUrl
     });
     await restaurant.save();
 

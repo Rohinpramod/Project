@@ -6,7 +6,7 @@ const { generateToken } = require('../utils/token');
 //signup
 exports.signup = async (req,res) =>{
     try {
-        const { name, email, password, mobile, profilePic } = req.body;
+        const { name, email, password, mobile, profilePic,role } = req.body;
 
         if (!name || !email || !password || !mobile) {
             return res.status(400).json({ message: "all fields required" });
@@ -21,7 +21,7 @@ exports.signup = async (req,res) =>{
         const hashedPassword = bcrypt.hashSync(password, 10);
         
 
-        const newUser = new User({ name, email, password: hashedPassword, mobile, profilePic });
+        const newUser = new User({ name, email, password: hashedPassword, mobile, profilePic,role });
         await newUser.save();
 
         const token = generateToken(newUser,'user')
