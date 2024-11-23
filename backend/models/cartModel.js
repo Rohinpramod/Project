@@ -55,6 +55,10 @@ const cartSchema = new mongoose.Schema(
   { timestamps }
 );
 
+cartSchema.method.calulateTotalPrice = function(){
+  this .totalPrice = this.items.reduce((total,items)=> total + items.price,0);
+}
+
 const Cart = mongoose.model("Cart", cartSchema);
 
 module.exports = Cart;

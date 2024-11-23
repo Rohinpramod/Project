@@ -9,7 +9,7 @@ const restaurantSchema = new mongoose.Schema({
         zipCode: String,
         location: {
             type: { type: String, enum: ['Point'] },
-            coordinates: { type: [Number] } 
+            coordinates: { type: [Number] } // [longitude, latitude]
         }
     },
     cuisine: { type: String, required: true },

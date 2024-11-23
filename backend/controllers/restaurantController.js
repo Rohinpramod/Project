@@ -1,5 +1,8 @@
-const { cloudinaryInstance } = require("../config/cloudinary");
+const mongoose = require('mongoose');
+
+const  cloudinaryInstance  = require("../config/cloudinary");
 const Restaurant = require("../models/restaurantModel");
+
 
 exports.createRestaurant = async (req, res) => {
   try {
@@ -8,20 +11,24 @@ exports.createRestaurant = async (req, res) => {
     if (!name || !location || !cuisine) {
       return res.status(400).json({ message: "all fields required" });
   }
-    // clodinaryupload
-  //   console.log(req.file, "======req.file");
+    //clodinaryupload
+   
+    console.log(req.file,"====req.file")
 
-  //   const imageUrl = await cloudinaryInstance.uploader.upload(req.file.path).url;
-  // console.log(imageUrl,"=====imageUrl")
-
-
-    const restaurant = new Restaurant({
+    const imageUrl = await cloudinaryInstance.uploader.upload(req.file.path);
+    console.log(imageUrl,"======imageUrl");
+  
+    let restaurant = await Restaurant.findOne({name})
+    if (restaurant) return res.status(400).json({ message: "Restaurant already exists" });
+      
+    restaurant = new Restaurant({
       name,
       location,
       cuisine,
       owner: req.user.userId,
-      // image:imageUrl
+      image:imageUrl.url
     });
+
     await restaurant.save();
 
     res.status(201).json(restaurant);
@@ -41,7 +48,7 @@ exports.getRestaurants = async (req, res) => {
 
 exports.getRestaurantById = async (req, res) => {
   try {
-    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    const restaurant = await Restaurant.findById(req.params.restaurantId).populate("menuItems");
     if (!restaurant)
       return res.status(404).json({ message: "Restaurant not found" });
 
