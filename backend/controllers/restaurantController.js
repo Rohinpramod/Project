@@ -48,7 +48,7 @@ exports.getRestaurants = async (req, res) => {
 
 exports.getRestaurantById = async (req, res) => {
   try {
-    const restaurant = await Restaurant.findById(req.params.restaurantId).populate("menuItems");
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
     if (!restaurant)
       return res.status(404).json({ message: "Restaurant not found" });
 

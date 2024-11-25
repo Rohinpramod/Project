@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser')
 
 const userRoutes = require("./routes/auth");
 const restaurantRoutes = require("./routes/restaurantRoutes")
+const cartRoutes = require("./routes/cartRoutes");
+
 const authMiddleware = require("./middlewares/authMiddleware");
 const roleMiddleware = require("./middlewares/roleMiddleware");
 
@@ -22,6 +24,7 @@ db();
 
 app.use("/api/user",userRoutes);
 app.use("/api/restaurant",authMiddleware, restaurantRoutes);
+app.use('/api/cart',authMiddleware, cartRoutes);
 
 app.get("/", (req,res) => {
     res.send("API Running capstone Project");

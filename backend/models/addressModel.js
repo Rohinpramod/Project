@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
             enum: ["user", "admin", "delivery"],
             default: "user",
           },
-          address: [{ type: mongoose.Types.ObjectId, ref: "Address" }],
+          address: [{ type:string }],
         },
         { timestamps: true }
       );

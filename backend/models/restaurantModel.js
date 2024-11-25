@@ -14,7 +14,7 @@ const restaurantSchema = new mongoose.Schema({
     },
     cuisine: { type: String, required: true },
     rating: { type: Number, default: 0 },
-    menuItems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MenuItem' }],
+    menuItems: [{ type: String,}],
     contact: {
         phone: String,
         email: String
@@ -24,7 +24,7 @@ const restaurantSchema = new mongoose.Schema({
         enum: ['open', 'closed'],
         default: 'open'
     },
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+    owner: { type:String}, 
     createdAt: { type: Date, default: Date.now }
 });
 

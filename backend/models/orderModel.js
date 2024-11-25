@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    restaurant: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant', required: true },
+    user: { type: String, required: true },
+    restaurant: { type: String, required: true },
     items: [{
-        menuItem: { type: mongoose.Schema.Types.ObjectId, ref: 'MenuItem', required: true },
+        menuItem: { type: String, required: true },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true }
     }],
@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema({
         state: String,
         zipCode: String
     },
-    coupon: { type: mongoose.Schema.Types.ObjectId, ref: 'Coupon' }, // optional coupon
+    coupon: { type: String }, // optional coupon
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });
