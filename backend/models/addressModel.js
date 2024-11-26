@@ -1,39 +1,35 @@
 const mongoose = require("mongoose");
-const userSchema = new mongoose.Schema(
-    {
-        name:{
-            type:string,
-            required:true,
-            maxlength:50,
-        },
-        email:{
-            type:string,
-            required:true,
-            unique:true,
-            minlength:5,
-            maxlength:30,
-        },
-        mobile:{
-            type:Number,
-            require:true,
-            unique:true,
-            minlength:10,
-            maxlength:15,
-        },
-        profiePic: {
-            type: String,
-            default:
-              "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
-          },
-          role: {
-            type: String,
-            enum: ["user", "admin", "delivery"],
-            default: "user",
-          },
-          address: [{ type:string }],
-        },
-        { timestamps: true }
-      );
-      
-      const User = mongoose.model("User", userSchema);
-      module.exports = User;  
+
+const addressSchema = new mongoose.Schema({
+  user: {  type: mongoose.Types.ObjectId, ref: "User", required: true },
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  street: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  city: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  state: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  postalCode: {
+    type: String,
+    required: true,
+    trim: true,
+    match: /^[1-9][0-9]{5}$/,
+  },
+});
+
+const Address = mongoose.model("Address", addressSchema);
+
+module.exports = Address;

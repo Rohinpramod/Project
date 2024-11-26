@@ -1,30 +1,29 @@
 const mongoose = require("mongoose");
 
-const Review = require('../models/reviewModel')
 const MenuItem = require("../models/menuItemModel");
 const cloudinaryInstance = require("../config/cloudinary");
 
 //create Menu items
 exports.createMenuItem = async (req, res) => {
   try {
-    const { name, price, category, isAvailable } = req.body;
+    const { name, price, category, isAvailable,description } = req.body;
     const restaurantId = req.params.restaurantId.trim();
 
-    // Validate restaurantId
+   
     if (!mongoose.Types.ObjectId.isValid(restaurantId)) {
       return res.status(400).json({ message: "Invalid restaurant ID format." });
     }
 
-    // Initialize the image URL with a default value
-    let imageUrl = "https://example.com/default-image.jpg"; // Replace with your default image URL
+  
+    let imageUrl = "https://example.com/default-image.jpg"; 
 
-    // Check if an image file is provided
+   
     if (req.file) {
       const uploadResponse = await cloudinaryInstance.uploader.upload(req.file.path);
-      imageUrl = uploadResponse.url; // Use the uploaded image URL
+      imageUrl = uploadResponse.url; 
     }
 
-    // Check if the menu item already exists
+  
     const menuItemIsExist = await MenuItem.findOne({
       restaurant: restaurantId,
       name: name,
@@ -33,13 +32,13 @@ exports.createMenuItem = async (req, res) => {
       return res.status(400).json({ message: "Menu item already exists" });
     }
 
-    // Create a new menu item
     const menuItem = new MenuItem({
       name,
       price,
       category,
       restaurant: restaurantId,
       isAvailable,
+      description,
       image: imageUrl,
     });
 
@@ -50,80 +49,106 @@ exports.createMenuItem = async (req, res) => {
   }
 };
 
-//get All Menu Restaurant
+//byName-all hotel items
+exports.getMenuItemsByName = async (req, res) => {
+  try {
+    const name = req.params.name;
+    const menuItems = await MenuItem.find({
+      name: { $regex: name, $options: "i" }, 
+    });
+
+    if (menuItems.length === 0) {
+      return res.status(404).json({ message: "No menu items found." });
+    }
+    res.json(menuItems);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//menu in that restaurant
+exports.getMenuItemByIdInRestaurant = async (req, res) => {
+  try {
+    const { menuItemId, restaurantId } = req.params;
+    const menuItem = await MenuItem.findOne({
+      _id: menuItemId,
+      restaurant: restaurantId,
+    });
+
+    if (!menuItem) {
+      return res
+        .status(404)
+        .json({ message: "Menu item not found in the specified restaurant." });
+    }
+
+    res.json(menuItem);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//get-Resturant-all-menu
 exports.getMenuItemsByRestaurant = async (req, res) => {
   try {
-      const { restaurantId } = req.params;
-
-      const menuItems = await MenuItem.find({ restaurant: restaurantId }).populate('customerReviews');
-      if (menuItems.length === 0) {
-          return res.status(404).json({ message: "No menu items found for this restaurant" });
-      }
-
-      res.status(200).json(menuItems);
+    const menuItems = await MenuItem.find({
+      restaurant: req.params.restaurantId,
+    });
+    res.json(menuItems);
   } catch (error) {
-      res.status(500).json({ error: error.message });
-  }
-};
-
-// Get a menu item by its name 
-exports.getMenuItemByName = async (req, res) => {
-  try {
-      const { name } = req.params;
-      const { restaurantId } = req.query; // Optional restaurant filter
-
-      // Build the search query
-      const query = { name: new RegExp(name, 'i') }; // Case-insensitive search
-      if (restaurantId) {
-          query.restaurant = restaurantId;
-      }
-
-      // Find menu items matching the name and optional restaurant ID
-      const menuItems = await MenuItem.find(query);
-
-      if (menuItems.length === 0) {
-          return res.status(404).json({ message: "No menu items found with the given name" });
-      }
-
-      res.status(200).json(menuItems);
-  } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 
-//updte Menu items
+
+
 exports.updateMenuItem = async (req, res) => {
   try {
-    
-      const { restaurantId, id} = req.params;
+    const { menuItemId, restaurantId } = req.params;
+    const { name, price, category, isAvailable } = req.body;
 
-      const menuItem = await MenuItem.findOne({ _id: id, restaurant: restaurantId });
+    let updateFields = { name, price, category, isAvailable };
 
-      if (!menuItem) {
-          return res.status(404).json({ message: "Menu item not found for this restaurant" });
-      }
+    if (req.file) {
+      const uploadResponse = await cloudinaryInstance.uploader.upload(
+        req.file.path
+      );
+      updateFields.imageUrl = uploadResponse.url;
+    }
 
-      const updatedMenuItem = await MenuItem.findByIdAndUpdate(id, req.body, { new: true });
+    const menuItem = await MenuItem.findOneAndUpdate(
+      { _id: menuItemId, restaurant: restaurantId },
+      updateFields,
+      { new: true, runValidators: true }
+    );
 
-      res.status(200).json({ message: "Menu item updated successfully", data: updatedMenuItem });
+    if (!menuItem) {
+      return res
+        .status(404)
+        .json({ message: "Menu item not found in the specified restaurant." });
+    }
+
+    res.json(menuItem);
   } catch (error) {
-      res.status(400).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-//delete Menu Items
 exports.deleteMenuItem = async (req, res) => {
-  try {
-      const { restaurantId, id } = req.params;
-
-      const menuItem = await MenuItem.findOneAndDelete({ _id: id, restaurant: restaurantId });
-      if (!menuItem) {
-          return res.status(404).json({ message: "Menu item not found for this restaurant" });
-      }
-
-      res.status(200).json({ message: "Menu item deleted successfully" });
-  } catch (error) {
-      res.status(500).json({ error: error.message });
+  try{
+    const { menuItemId, restaurantId } = req.params;
+    if(!menuItemId){
+      return res.status(400).json({ message: "Menu item ID is required" });
+    }
+    const deleteMenuItem = await MenuItem.findByIdAndDelete({
+      _id: menuItemId,
+      restaurant: restaurantId,
+    });
+    if(!deleteMenuItem){
+      return res.status(404).json({ message: "Menu item not found in the specified restaurant" });
+    }
+    res.status(200).json({ message: "Menu item deleted" });
+  }catch (error) {
+    res.status(500).json({ message: error.message });
   }
-};
+}
