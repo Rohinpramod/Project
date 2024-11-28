@@ -6,32 +6,24 @@ const cartSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    restaurantId:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Restaurant",
+      required:true,
+    },
     items: [
       {
         foodId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "MenuItems",
+          ref: "MenuItem",
           required: true,
         },
-        restaurantId:{
-          type:mongoose.Schema.Types.ObjectId,
-          ref:"restaurant",
-          required:true,
-        },
-        name: {
-          type: String,
-          required: true,
-        },
+        
         quantity: {
           type: Number,
           required: true,
           min: 1,
           default: 1,
-        },
-        price: {
-          type: Number,
-          required: true,
-          min: 0,
         },
         totalItemPrice: {
           type: Number,

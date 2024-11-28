@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const  cloudinaryInstance  = require("../config/cloudinary");
 const Restaurant = require("../models/restaurantModel");
+const MenuItem = require('../models/menuItemModel');
 
 
 exports.createRestaurant = async (req, res) => {
@@ -13,10 +14,10 @@ exports.createRestaurant = async (req, res) => {
   }
     //clodinaryupload
    
-    console.log(req.file,"====req.file")
+  
 
     const imageUrl = await cloudinaryInstance.uploader.upload(req.file.path);
-    console.log(imageUrl,"======imageUrl");
+   
   
     let restaurant = await Restaurant.findOne({name})
     if (restaurant) return res.status(400).json({ message: "Restaurant already exists" });
@@ -78,16 +79,13 @@ exports.updateRestaurant = async (req, res) => {
 exports.deleteRestaurant = async (req, res) => {
     try {
       
-      const restaurant = await Restaurant.findOne({
-        _id: req.params.restaurantId,
-        owner: req.user.userId, 
-      });
-  
+      const restaurant =await Restaurant.findByIdAndDelete(req.params.restaurantId);
+    
       if (!restaurant) {
         return res.status(404).json({ message: "Restaurant not found or unauthorized" });
       }
   
-      await Restaurant.findByIdAndDelete(req.params.restaurantId);
+      await MenuItem.deleteMany({_id:{$in:restaurant.menuItems}})
       res.json({ message: "Restaurant deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: error.message });

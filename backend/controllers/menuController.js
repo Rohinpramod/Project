@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const MenuItem = require("../models/menuItemModel");
 const cloudinaryInstance = require("../config/cloudinary");
+const Restaurant = require("../models/restaurantModel");
 
 //create Menu items
 exports.createMenuItem = async (req, res) => {
@@ -9,7 +10,8 @@ exports.createMenuItem = async (req, res) => {
     const { name, price, category, isAvailable,description } = req.body;
     const restaurantId = req.params.restaurantId.trim();
 
-   
+   const restaurant = await Restaurant.findById(restaurantId);
+
     if (!mongoose.Types.ObjectId.isValid(restaurantId)) {
       return res.status(400).json({ message: "Invalid restaurant ID format." });
     }
@@ -42,7 +44,11 @@ exports.createMenuItem = async (req, res) => {
       image: imageUrl,
     });
 
+
     await menuItem.save();
+    restaurant.menuItems.push(menuItem._id);
+    await restaurant.save();
+
     res.status(201).json(menuItem);
   } catch (error) {
     res.status(500).json({ message: error.message });
