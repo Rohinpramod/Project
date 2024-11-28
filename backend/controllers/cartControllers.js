@@ -1,21 +1,6 @@
 const Cart  = require('../models/cartModel');
 const MenuItem = require('../models/menuItemModel')
 
-//get-cart
-exports.getCart = async (req, res) => {
-    try {
-      const userId = req.user.id;
-  
-      const cart = await  Cart.findOne({ userId });
-      if (!cart) {
-        return res.status(404).json({ message: "Cart is empty" });
-      }
-  
-      res.status(200).json({message:"cart items fetched",data:cart});
-    } catch (error) {
-      res.status(500).json({ message:error.message});
-    }
-  };
 
 //add-to-cart
 exports.addToCart = async (req, res) => {
@@ -82,7 +67,7 @@ exports.addToCart = async (req, res) => {
 //addQunatity
 exports.addQuantity = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     const { foodId, action } = req.body;
     if (!["increment", "decrement"].includes(action)) {
       return res
@@ -125,6 +110,24 @@ exports.addQuantity = async (req, res) => {
   }
 };
 
+
+//get-cart
+exports.getCart = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const cart = await  Cart.findOne({ userId }).populate("items.foodId","name");
+    if (!cart) {
+      return res.status(404).json({ message: "Cart is empty" });
+    }
+
+    res.status(200).json({message:"cart items fetched",data:cart});
+  } catch (error) {
+    res.status(500).json({ message:error.message});
+  }
+};
+
+
   
   // Delete an item from the cart
 exports.deleteCartItem = async (req, res) => {
@@ -136,22 +139,34 @@ exports.deleteCartItem = async (req, res) => {
       if (!cart) {
         return res.status(404).json({ message: "Cart not found" });
       }
-  
-      cart.items = cart.items.filter(item => item.foodId.toString() !== foodId);
-  
-      // Recalculate total price
-      cart.totalPrice = cart.items.reduce((total, item) => total + item.totalItemPrice, 0);
-      cart.finalPrice = cart.discount
-        ? cart.totalPrice - cart.totalPrice * (cart.discount / 100)
-        : cart.totalPrice;
-  
+      
+      const itemIndex = cart.items.findIndex(
+        (item)=> item.foodId._id.toString()=== foodId
+      );
+
+      if(itemIndex > -1){
+        cart.items.splice(itemIndex,1);
+        cart.totalPrice = cart.items.reduce(
+          (sum,item) => sum + item.totalItemPrice,0
+        );
+        cart.finalPrice = cart.totalPrice;
+        await cart.save();
+        
+        res.status(200).json({message:"Item removed from cart",cart});
+      }else{
+        res.status(404).json({message:"Item not found in cart",error});
+      }
+    
+        if(cart.items.length === 0 ){
+          await Cart.findOneAndDelete(userId)
+            return res.status(200).json({message:"cart deleted"});
+        }
+
       await cart.save();
   
       res.status(200).json({ message: "Item removed from cart", cart });
     } catch (error) {
-      res.status(500).json({ message: "Server error", error });
+      res.status(500).json({ message:error.message });
     }
   };
   
-  
-

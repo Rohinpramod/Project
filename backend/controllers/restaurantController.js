@@ -17,7 +17,7 @@ exports.createRestaurant = async (req, res) => {
   
 
     const imageUrl = await cloudinaryInstance.uploader.upload(req.file.path);
-   
+    console.log(imageUrl,"======imageUrl");
   
     let restaurant = await Restaurant.findOne({name})
     if (restaurant) return res.status(400).json({ message: "Restaurant already exists" });
