@@ -3,11 +3,14 @@ const User = require('../models/userModel')
 
 // add address
 exports.addAddress = async (req, res) => {
+
     try {
+      const userId = req.user.id;
+
       const { street, city, state, postalCode, name } = req.body;
   
       const addressExists = await Address.findOne({ 
-        user: req.user.userId,
+        user: userId,
         name: name
       });
       if (addressExists) {
@@ -21,7 +24,7 @@ exports.addAddress = async (req, res) => {
         state,
         postalCode,
         name,
-        user: req.user.userId,
+        user: userId,
       });
       await address.save();
       res.status(201).json({
@@ -36,7 +39,7 @@ exports.addAddress = async (req, res) => {
   //get address
 exports.getAddresses = async (req, res) => {
   try {
-    const addresses = await Address.find({ user: req.user.userId });
+    const addresses = await Address.find({ user: req.user.id });
     res.status(200).json(addresses);
   } catch (error) {
     res.status(500).json({ message: error.message });

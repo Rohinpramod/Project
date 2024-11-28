@@ -16,7 +16,7 @@ router.delete('/:restaurantId', authMiddleware,roleMiddleware(['admin']),deleteR
 
 
 router.post('/:restaurantId',authMiddleware,roleMiddleware(['admin', 'restaurant manager']),upload.single('image'),createMenuItem);
-router.get('/:name',getMenuItemsByName);
+router.get('/menu/:name',getMenuItemsByName);
 router.get('/:restaurantId/:menuItemId/menu',getMenuItemByIdInRestaurant);
 router.get('/:restaurantId/menu',getMenuItemsByRestaurant);
 router.put('/:restaurantId/:menuItemId/updateMenu',authMiddleware, roleMiddleware(["admin","restaurant manager"]),upload.single("image"), updateMenuItem);

@@ -24,7 +24,7 @@ const db = connectDB;
 db();
 
 app.use("/api/user",userRoutes);
-app.use("/api/restaurant",authMiddleware,roleMiddleware,restaurantRoutes);
+app.use("/api/restaurant",authMiddleware,restaurantRoutes);
 app.use('/api/cart',authMiddleware,cartRoutes);
 app.use('/api/address',authMiddleware,addressRoutes);
 

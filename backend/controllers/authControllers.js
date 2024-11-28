@@ -27,7 +27,7 @@ exports.signup = async (req,res) =>{
         const token = generateToken(newUser,'user')
         res.cookie('token',token);
 
-        res.json({ message: "user created successfully" });
+        res.json({ message: " SignIn successfully" });
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
@@ -53,7 +53,7 @@ exports.login = async (req, res) =>{
         const token = generateToken(userExist,'user')
         res.cookie('token',token);
 
-        res.json({message:"user Login succssfully"});
+        res.json({message:" Login succssfully"});
     }catch(error){
         res.status(500).json({message:error.message});
     }
@@ -67,7 +67,7 @@ exports.getProfile = async (req,res,next)=>{
         const userProfile = await User.findById(userId).select("-password");
    
    
-           res.json({ message: "user login successfully", data:userProfile });
+           res.json({ message: " successfull", data:userProfile });
        } catch (error) {
            res.status(500).json({ messsage:error.message || "Internal server error" });
        }

@@ -13,6 +13,11 @@ const cartSchema = new mongoose.Schema(
           ref: "MenuItems",
           required: true,
         },
+        restaurantId:{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:"restaurant",
+          required:true,
+        },
         name: {
           type: String,
           required: true,
@@ -40,9 +45,6 @@ const cartSchema = new mongoose.Schema(
       required: true,
       min: 0,
       default: 0,
-    },
-    discount: {
-      type: Number,
     },
     finalPrice: {
       type: Number,
