@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// const order = require('../model/orderModel');
+
 const MenuItems = require('../models/menuItemModel');
 const Review = require('../models/reviewModel');
 
@@ -8,6 +10,8 @@ exports.addReview = async (req, res) => {
     try {
       const { menuItems, rating, comment } = req.body;
       const userId = req.user.id;
+
+      // const order = await order.find(userId);
 
       if (!userId) {
         return res.status(400).json({ message: "User ID is required" });
@@ -76,41 +80,26 @@ exports.deleteReview = async (req, res) => {
   
     const userId = req.user.id;
     const reviewId = req.params.reviewId;
-    const review = await Review.findOne({reviewId});
-console.log(reviewId,"=====reviewId")
+    const review = await Review.findById(reviewId);
+
     if (!review) {
         return res.status(404).json({ message: "Review not found " });
     }
+    
+    const menuItem = await MenuItems.findById(review.menuItems);
 
-    const itemIndex = MenuItems.customerReviews.findIndex(
-      (review)=> review.customerReviews._id.toString()=== review
-    );
-console.log(itemIndex)
-    // if(itemIndex > -1){
-    //   .items.splice(itemIndex,1);
-    //   cart.totalPrice = cart.items.reduce(
-    //     (sum,item) => sum + item.totalItemPrice,0
-    //   );
-    // }
+    const itemIndex = menuItem.customerReviews.findIndex((item) => item.toString() === review._id.toString());
+     
+    if(itemIndex > -1){
+      menuItem.customerReviews.splice(itemIndex,1);
+    }
+    await menuItem.save();
+    
+    await Review.findByIdAndDelete(reviewId);
+    
+
     res.status(200).json({ message: "Review deleted successfully" });
 } catch (error) {
     res.status(500).json({ message:error.message });
 }
   };
-
-exports.getAverageRating = async (req, res) => {
-    try {
-        const { courseId } = req.params;
-
-        const reviews = await Review.find({ courseId });
-        if (!reviews.length) {
-            return res.status(404).json({ message: "No reviews found for this course" });
-        }
-
-        const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
-
-        res.status(200).json({ messsage:'average review fetched', data:averageRating });
-    } catch (error) {
-        res.status(500).json({ message:error.message });
-    }
-};

@@ -8,6 +8,9 @@ const restaurantRoutes = require("./routes/restaurantRoutes")
 const cartRoutes = require("./routes/cartRoutes");
 const addressRoutes = require('./routes/addressRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const couponRoutes = require('./routes/couponRoutes'); 
+const orderRoutes = require('./routes/orderRouter');
+
 const authMiddleware = require("./middlewares/authMiddleware");
 const roleMiddleware = require("./middlewares/roleMiddleware");
 
@@ -28,7 +31,8 @@ app.use("/api/restaurant",authMiddleware,restaurantRoutes);
 app.use('/api/cart',authMiddleware,cartRoutes);
 app.use('/api/address',authMiddleware,addressRoutes);
 app.use('/api/review',authMiddleware,reviewRoutes);
-
+app.use('/api/coupon',authMiddleware,couponRoutes);
+app.use('/api/order',authMiddleware,orderRoutes);
 app.get("/", (req,res) => {
     res.send("API Running capstone Project");
     
