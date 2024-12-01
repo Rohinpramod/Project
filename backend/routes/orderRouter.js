@@ -12,7 +12,7 @@ router.put('/update-Order/:orderId',roleMiddleware(['user']),updateOrderUser);
 router.patch('/update-order-status/:orderId',updateOrderStatus);
 router.get('/get-all-restaurant-orders/:restaurantId',getAllRestaurantOrders);
 
-router.post('/:orderId/payment',roleMiddleware(['user']),createPayment);
-router.post('/verify-payment',roleMiddleware(['user']),verifyPayment);
+router.post('/:orderId/payment',createPayment);
+router.post('/verify-payment',verifyPayment);
 
 module.exports = router;
