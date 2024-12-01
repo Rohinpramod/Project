@@ -82,10 +82,10 @@ exports.getAllOrders = async (req,res)=>{
   exports.updateOrderUser = async (req,res)=>{
     try{
         const user = req.user.id
-        const orderId  = req.params;
+        const orderId  = req.params.orderId;
         const{coupon, status, deliveryAddress} = req.body
-        const order = await Order.findById(orderId)
-        console.log(orderId,"===id");
+        const order = await Order.findById(orderId);
+
         if(!order){
             return res.status(404).json({message: "No order found"})
         }

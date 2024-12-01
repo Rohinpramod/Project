@@ -4,7 +4,6 @@ const paymentSchema = new mongoose.Schema({
     user: { type: String, required:true},
     amount: { type: Number, required: true },
     status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
-    paymentMethod: { type: String, enum: ['credit_card', 'debit_card', 'upi', 'cod'], required: true },
     transactionId: { type: String }, 
     createdAt: { type: Date, default: Date.now }
 });

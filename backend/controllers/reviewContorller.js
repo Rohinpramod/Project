@@ -1,17 +1,16 @@
 const mongoose = require('mongoose');
-
-// const order = require('../model/orderModel');
-
+const Order = require('../models/orderModel');
 const MenuItems = require('../models/menuItemModel');
 const Review = require('../models/reviewModel');
+const Restaurant = require('../models/restaurantModel');
+const { calculateAverageRating } = require('../utils/ratingUtils');
 
 // Create a new review
 exports.addReview = async (req, res) => {
     try {
-      const { menuItems, rating, comment } = req.body;
+      const { menuItems,orderId, rating, comment } = req.body;
       const userId = req.user.id;
-
-      // const order = await order.find(userId);
+      
 
       if (!userId) {
         return res.status(400).json({ message: "User ID is required" });
@@ -21,6 +20,36 @@ exports.addReview = async (req, res) => {
       if (!foundMenuItem) {
         return res.status(404).json({ message: "MenuItem not found" });
       }
+
+      const order = await Order.findById(orderId).populate("cartId");
+    let isMatch;
+    order.cartId.items.some((item) => {
+      isMatch = item.foodId.toString() === menuId.toString();
+      return isMatch;
+    });
+    if (order.status !== "delivered") {
+      return res.status(400).json({
+        message:
+          "Your order is not delivered, please try once order is delivered",
+      });
+    }
+    const existingReview = await Review.findOne({
+      user: user,
+      menuId: menuId,
+      orderId: orderId,
+    });
+
+    if (existingReview) {
+      return res.status(400).json({
+        message:
+          "You can only submit one review per delivered order for this menu item.",
+      });
+    }
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Item not found in order",
+      });
+    }
   
       const newReview = new Review({
         user: userId,
@@ -32,6 +61,14 @@ exports.addReview = async (req, res) => {
       const savedReview = await newReview.save();
 
       foundMenuItem.customerReviews.push(savedReview._id);
+
+      const averageRatingMenu = await calculateAverageRating(MenuItems,menuItems);
+      foundMenuItem.rating = averageRatingMenu;
+
+      const restaurantId = foundMenuItem.restaurant;
+      const averageRatingRestaurant = await calculateAverageRating(Restaurant,restaurantId);
+      await Restaurant.findByIdAndUpdate(restaurantId,{rating: averageRatingRestaurant});
+      
       await foundMenuItem.save();
       await savedReview.populate("menuItems","name price");
 
@@ -54,25 +91,6 @@ exports.getAllReviews = async (req, res) => {
     }
   };
   
-  // Get reviews by user ID
-  // const getUserReviews = async (req, res) => {
-  //   try {
-  //     const userId = req.userId || req.query.userId; // Assuming `userId` is passed from middleware or query
-  
-  //     if (!userId) {
-  //       return res.status(400).json({ message: "User ID is required" });
-  //     }
-  
-  //     const userReviews = await Review.find({ user: userId }).populate(
-  //       "restaurant",
-  //       "name location"
-  //     );
-  
-  //     res.status(200).json(userReviews);
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Failed to fetch user reviews", error });
-  //   }
-  // };
   
   // Delete a review
 exports.deleteReview = async (req, res) => {
