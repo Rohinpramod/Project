@@ -1,8 +1,7 @@
 const express = require('express');
 const { createOrder, getAllOrders, getOrderById, getAllRestaurantOrders, updateOrderUser, updateOrderStatus } = require('../controllers/orderController');
 const { createPayment, verifyPayment } = require('../controllers/paymentController');
-const authMiddleware = require("../middlewares/authMiddleware");
-
+const roleMiddleware = require('../middlewares/roleMiddleware');
 const router = express.Router();
 
 router.post('/create-order',roleMiddleware(['user']),createOrder);
