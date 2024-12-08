@@ -36,7 +36,7 @@ export default function Header() {
                 src={logo}
                 className="h-12 w-auto"
               /></Link> 
-              <h2 className="text-white font-semibold ps-2">GOURMET</h2>
+              <h2 className="text-white font-semibold ps-2">GOURMENT</h2>
             </div>
           
           {/* Logo and Navigation */}

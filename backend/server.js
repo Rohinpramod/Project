@@ -19,6 +19,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser()); 
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true,
+    method: ["GET","POST","PUT","PATCH","DELETE"]  
+
+}));
 
 
 const port = PORT;
@@ -27,7 +33,7 @@ const db = connectDB;
 db();
 
 app.use("/api/user",userRoutes);
-app.use("/api/restaurant",authMiddleware,restaurantRoutes);
+app.use("/api/restaurant",restaurantRoutes);
 app.use('/api/cart',authMiddleware,cartRoutes);
 app.use('/api/address',authMiddleware,addressRoutes);
 app.use('/api/review',authMiddleware,reviewRoutes);

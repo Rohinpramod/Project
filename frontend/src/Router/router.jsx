@@ -11,12 +11,16 @@ import Login from '../pages/shared/Login';
 import Profile from '../pages/User/Profile';
 import Payment from '../pages/User/Payment';
 import UserLayout from '../layout/UserLayout';
+import ErrorPage from '../pages/shared/ErrorPage';
+import AllRestaurants from '../pages/User/AllRestaurants';
+import RestaurantPage from '../pages/User/RestaurantPage';
 
 
  const router = createBrowserRouter([
     {
         path:"/",
         element:<UserLayout />,
+        errorElement:<ErrorPage />,
         children: [
             {
                 path:"",
@@ -58,6 +62,14 @@ import UserLayout from '../layout/UserLayout';
                 path:"payment",
                 element:<Payment />
             },
+            {
+                path:"all-restuarant",
+                element:<AllRestaurants />
+            },
+            {
+                path:"restaurant-page",
+                element:<RestaurantPage />
+            }
         ]
     }
 

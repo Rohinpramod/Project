@@ -6,11 +6,12 @@ import { FaUserCircle } from "react-icons/fa";
 
 import logo from '../../assets/images/logo.png';
 import { Link } from 'react-router-dom';
+import Darkmode from '../shared/Darkmode';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
-  { name: 'Home', href: '#', current: false },
-  { name: 'About Us', href: '#', current: false },
+  { name: 'Home', href: "", current: true },
+  { name: 'Restaurants', href: 'all-restuarant', current: false },
   { name: '', href: '#', current: false },
 ]
 
@@ -38,7 +39,7 @@ function UserHeader() {
                 src={logo}
                 className="h-12 w-auto"
               /></Link> 
-              <h2 className="text-white font-semibold ps-2">GOURMET</h2>
+              <h2 className="text-white font-semibold ps-2">GOURMENT</h2>
             </div>
           
           {/* Logo and Navigation */}
@@ -64,7 +65,7 @@ function UserHeader() {
           </div>
 
           {/* Notification Bell and Profile - Positioned Right */}
-          <div className="flex items-center ml-auto space-x-4">
+          <div className="flex items-center ml-auto space-x-4 mx-3">
             <button
               type="button"
               className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -83,7 +84,7 @@ function UserHeader() {
                 <MenuButton className="relative flex transition ease-in-out delay-150 bg-gray-900 rounded-lg hover:-translate-y-1 hover:scale-110 hover:bg--500 duration-300 ... ">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
-                    <FaUserCircle style={{color: 'white'}} className='size-6' />
+                    <FaUserCircle style={{color: 'white'}} className='size-6 ' />
                 </MenuButton>
               </div>
               <MenuItems
@@ -117,7 +118,9 @@ function UserHeader() {
               </MenuItems>
             </Menu>
           </div>
+          <Darkmode/>
         </div>
+       
       </div>
 
       {/* Mobile Menu Panel */}
