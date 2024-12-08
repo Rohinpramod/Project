@@ -31,28 +31,16 @@ import RestaurantPage from '../pages/User/RestaurantPage';
                 element:<Signup />
             },
             {
-                path:"login",
+                path:"/login",
                 element:<Login />
-            },
-            {
-                path:"profile",
-                element:<Profile />
             },
             {
                 path:"about",
                 element:<About />
             },
             {
-                path:"search",
-                element:<SearchPage />
-            },
-            {
                 path:"cart",
                 element:<Cart />
-            },
-            {
-                path:"address",
-                element:""
             },
             {
                 path:"order",
@@ -69,6 +57,10 @@ import RestaurantPage from '../pages/User/RestaurantPage';
             {
                 path:"restaurant-page",
                 element:<RestaurantPage />
+            },
+            {
+                path:"user-profile",
+                element:<Profile />
             }
         ]
     }

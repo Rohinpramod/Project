@@ -1,8 +1,8 @@
 import React from 'react'
 
-const card = ({image, title, isDark}) => {
+const card = ({image, title }) => {
   return (
-    <div className={`card bg-base-100 w-60 shadow-xl ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+    <div className={`cardslider rounded-2xl overflow-hidden bg-base-100 w-60  shadow-xl`}>
       <figure>
         <img className='w-[100%] h-[15vh]'
           src={image}

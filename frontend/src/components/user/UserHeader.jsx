@@ -6,11 +6,10 @@ import { FaUserCircle } from "react-icons/fa";
 
 import logo from '../../assets/images/logo.png';
 import { Link } from 'react-router-dom';
-import Darkmode from '../shared/Darkmode';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
-  { name: 'Home', href: "", current: true },
+  { name: 'About Us', href: "about", current: true },
   { name: 'Restaurants', href: 'all-restuarant', current: false },
   { name: '', href: '#', current: false },
 ]
@@ -74,8 +73,9 @@ function UserHeader() {
               <span className="sr-only">View notifications</span>
               <BellIcon aria-hidden="true" className="size-6" />
             </button>
-            <FaCartShopping style={{color: 'white'}} className='w-25 relative transition ease-in-out delay-15 hover:cursor-pointer hover:-translate-y-1 hover:scale-110 hover: duration-300 ... ' />
-
+            <Link to="/cart">
+            <FaCartShopping style={{color: 'white'}} className='w- relative transition ease-in-out delay-15 hover:cursor-pointer hover:-translate-y-1 hover:scale-110 hover: duration-300 ... ' />
+            </Link>
 
 
             {/* Profile Dropdown */}
@@ -93,7 +93,7 @@ function UserHeader() {
               >
                 <MenuItem>
                   <a
-                    href="#"
+                    href="user-profile"
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                   >
                     Your Profile
@@ -101,7 +101,7 @@ function UserHeader() {
                 </MenuItem>
                 <MenuItem>
                   <a
-                    href="#"
+                    href="/order"
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                   >
                     Your Order
@@ -109,7 +109,7 @@ function UserHeader() {
                 </MenuItem>
                 <MenuItem>
                   <a
-                    href="#"
+                    href="/header"
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                   >
                     Sign out
@@ -118,7 +118,6 @@ function UserHeader() {
               </MenuItems>
             </Menu>
           </div>
-          <Darkmode/>
         </div>
        
       </div>

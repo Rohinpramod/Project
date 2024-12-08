@@ -3,7 +3,6 @@ import { CiSearch } from "react-icons/ci";
 import Data from "../../../src/data/data";
 import Card from "../../components/user/Card";
 import RestData from "../../data/ResData";
-
 import coverPhoto from "../../../src/assets/images/coverPhoto.jpg";
 import FoodCarousel from "../../components/slider/slider";
 import SimpleSlider from "../../components/slider/slider";
@@ -27,7 +26,7 @@ const Home = () => {
       <div className="cover flex items-center justify-center  ">
         <div className="">
           <input
-            type="text"
+            type="text bg-white text-black"
             className="search p-4 rounded-5 "
             placeholder="Search for Resturant,item or more "
           ></input>
@@ -38,14 +37,14 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="container  flex-wrap  mx-auto mt-3">
+      <div className="container flex-wrap  mx-auto mt-3">
         <h1 className="font-bold text-2xl my-5">Order our best food options</h1>
 
         <SimpleSlider
           data={Data}
           settings={settings}
           renderItem={(item) => (
-            <Card key={item.title} image={item.image} title={item.title} />
+            <Card  key={item.title} image={item.image} title={item.title} />
           )}
         />
 
