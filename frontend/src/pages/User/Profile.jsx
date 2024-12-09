@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
   return (
@@ -13,12 +14,8 @@ const ProfilePage = () => {
           />
         </div>
         <div className="text-center md:text-left">
-          <h1 className="text-2xl font-bold">Jane Doe</h1>
-          <div className="mt-4">
-            <button className="btn bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md">
-              Edit Profile
-            </button>
-          </div>
+          <h1 className="text-2xl font-bold">Rohin Pramod</h1>
+         
         </div>
       </div>
 
@@ -70,9 +67,12 @@ const ProfilePage = () => {
             </li>
           </ul>
           <div className="mt-4">
+            <Link to="/order">
             <button className="btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
               View All Orders
             </button>
+            </Link>
+            
           </div>
         </div>
 
@@ -91,9 +91,11 @@ const ProfilePage = () => {
             </li>
           </ul>
           <div className="mt-4">
-            <button className="btn bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md">
+          <Link to="/contact">
+          <button className="btn bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md">
               Edit Settings
             </button>
+          </Link>
           </div>
         </div>
       </div>

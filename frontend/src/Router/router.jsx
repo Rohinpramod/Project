@@ -4,7 +4,7 @@ import Home from '../pages/User/Home';
 import About from '../pages/User/About';
 import Cart from '../pages/User/Cart';
 import Contact from '../pages/User/Contact';
-import OrderDetails from '../pages/User/orderDetails';
+import OrderDetails from '../../src/pages/User/OrderDetails';
 import SearchPage from '../pages/User/SearchPage';
 import Signup from '../pages/shared/Signup';
 import Login from '../pages/shared/Login';
@@ -61,6 +61,10 @@ import RestaurantPage from '../pages/User/RestaurantPage';
             {
                 path:"user-profile",
                 element:<Profile />
+            },
+            {
+                path:"contact",
+                element:<Contact />
             }
         ]
     }

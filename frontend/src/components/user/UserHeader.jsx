@@ -71,7 +71,7 @@ function UserHeader() {
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="size-6" />
+              <BellIcon aria-hidden="true" className="size-6"  />
             </button>
             <Link to="/cart">
             <FaCartShopping style={{color: 'white'}} className='w- relative transition ease-in-out delay-15 hover:cursor-pointer hover:-translate-y-1 hover:scale-110 hover: duration-300 ... ' />
