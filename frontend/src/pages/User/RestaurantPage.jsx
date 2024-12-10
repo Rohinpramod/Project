@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Data from "../../data/data";
 import MenuCard from "../../components/user/MenuCard";
+import { Link, useParams } from "react-router-dom";
+import { axiosInstance } from "../../config/axiosInstance";
+import { ProductSkelton } from "../../components/shared/Skelton";
 
 
 
 const RestaurantPage = () => {
+  
+  const[restaurantDetails, setRestaurantDetails] = useState({})
+  const {id} = useParams();
+  
+  const fetchRestaurantDetails = async()=>{
+    try{
+      const response = await axiosInstance({
+        url:`/restaurant/${id}`
+      });
+
+      setRestaurantDetails(response?.data)
+    }catch(error){
+      console.log(error)
+    }
+  };
+  console.log('restaurantDetails=========',restaurantDetails)
+
+  useEffect(()=>{
+    fetchRestaurantDetails();
+  },[])
+
   return (
     <div className="mt-20 container mx-auto">
       <div className="flex flex-col md:flex-row gap-6">
@@ -34,12 +58,16 @@ const RestaurantPage = () => {
 </div>
 
           <div className="mt-6">
+            <Link to="/restaurant-page" >
             <button className="bg-orange-400 text-white px-6 py-2 rounded-lg">
               Order Online
             </button>
+            </Link>
+            <Link to="review">
             <button className="bg-orange-400 text-white ms-3 px-6 py-2 rounded-lg">
               Review
             </button>
+            </Link>
           </div>
         </div>
       </div>

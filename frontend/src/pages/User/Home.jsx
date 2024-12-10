@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import Data from "../../../src/data/data";
 import Card from "../../components/user/Card";
@@ -7,6 +7,8 @@ import coverPhoto from "../../../src/assets/images/coverPhoto.jpg";
 import FoodCarousel from "../../components/slider/slider";
 import SimpleSlider from "../../components/slider/slider";
 import RestaurantCard from "../../components/user/RestaurantCard";
+import { axiosInstance } from "../../config/axiosInstance";
+import useFetch from "../../hooks/useFetch";
 
 var settings = {
   dots: true,
@@ -21,6 +23,7 @@ var settings = {
 
 const data = [];
 const Home = () => {
+    const [restaurants,isLoading,error] = useFetch('/restaurant/')
   return (
     <div>
       <div className="cover flex items-center justify-center  ">
@@ -39,18 +42,20 @@ const Home = () => {
 
       <div className="container flex-wrap  mx-auto mt-3">
         <h1 className="font-bold text-2xl my-5">Order our best food options</h1>
-
+        
         <SimpleSlider
           data={Data}
           settings={settings}
           renderItem={(item) => (
-            <Card  key={item.title} image={item.image} title={item.title} />
+            <Card  key={item._id} data={item}  />
           )}
         />
-
+        
         <h1 className="mt-5 font-bold text-2xl">Restaurants</h1>
         <div className='flex flex-wrap md:gap-10 mt-5'> 
-              {RestData.map((item)=> <RestaurantCard data={item}/>)}
+              {restaurants?.map((item)=> (
+                <RestaurantCard data={item} key={item._id}/>
+              ))}
             </div>
       </div>  
       

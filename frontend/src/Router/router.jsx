@@ -7,13 +7,16 @@ import Contact from '../pages/User/Contact';
 import OrderDetails from '../../src/pages/User/OrderDetails';
 import SearchPage from '../pages/User/SearchPage';
 import Signup from '../pages/shared/Signup';
-import Login from '../pages/shared/Login';
 import Profile from '../pages/User/Profile';
 import Payment from '../pages/User/Payment';
 import UserLayout from '../layout/UserLayout';
 import ErrorPage from '../pages/shared/ErrorPage';
 import AllRestaurants from '../pages/User/AllRestaurants';
 import RestaurantPage from '../pages/User/RestaurantPage';
+import RatingPage from '../pages/User/Rating';
+import CreateRestaurant from '../pages/restaurantManager/CreateResturant';
+import ProtectedRoute from './ProtectedRoute';
+import LoginPage from '../pages/shared/Login';
 
 
  const router = createBrowserRouter([
@@ -31,20 +34,12 @@ import RestaurantPage from '../pages/User/RestaurantPage';
                 element:<Signup />
             },
             {
-                path:"/login",
-                element:<Login />
+                path:"/loginPage",
+                element:<LoginPage />
             },
             {
                 path:"about",
                 element:<About />
-            },
-            {
-                path:"cart",
-                element:<Cart />
-            },
-            {
-                path:"order",
-                element:<OrderDetails />
             },
             {
                 path:"payment",
@@ -55,19 +50,33 @@ import RestaurantPage from '../pages/User/RestaurantPage';
                 element:<AllRestaurants />
             },
             {
-                path:"restaurant-page",
+                path:"restaurantPage/:id",
                 element:<RestaurantPage />
             },
-            {
-                path:"user-profile",
-                element:<Profile />
-            },
-            {
-                path:"contact",
-                element:<Contact />
+            {  
+                element:<ProtectedRoute />,
+                children:[
+                    {
+                        path:"cart",
+                        element:<Cart />
+                    },
+                    {
+                        path:"order",
+                        element:<OrderDetails />
+                    },
+                    {
+                        path:"user-profile",
+                        element:<Profile />
+                    },
+                    {
+                        path:"contact",
+                        element:<Contact />
+                    },
+                ]
             }
+            
         ]
-    }
+    },
 
 
         

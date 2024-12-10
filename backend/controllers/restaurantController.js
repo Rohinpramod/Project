@@ -14,11 +14,13 @@ exports.createRestaurant = async (req, res) => {
   }
     //clodinaryupload
    
-  
+   let imageUrl
+   if(req.file){
+    const cloudinaryupload = await cloudinaryInstance.uploader.upload(res.file.path)
+    imageUrl = cloudinaryupload.url
+   }
+   
 
-    const imageUrl = await cloudinaryInstance.uploader.upload(req.file.path);
-    console.log(imageUrl,"======imageUrl");
-  
     let restaurant = await Restaurant.findOne({name})
     if (restaurant) return res.status(400).json({ message: "Restaurant already exists" });
       
@@ -27,7 +29,7 @@ exports.createRestaurant = async (req, res) => {
       location,
       cuisine,
       owner: req.user.userId,
-      image:imageUrl.url
+      image:imageUrl
     });
 
     await restaurant.save();

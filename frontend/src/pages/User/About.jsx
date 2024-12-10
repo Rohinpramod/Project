@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from  '../../assets/images/logo.png'
 
 const AboutPage = () => {
   return (
@@ -16,7 +17,7 @@ const AboutPage = () => {
       <div className="mt-12 bg-white rounded-lg shadow-md p-8 mx-auto max-w-4xl">
         <h2 className="text-2xl font-bold mb-4">Our Story</h2>
         <p className="text-gray-700 leading-7">
-          At <span className="font-semibold">Foodie Express</span>, we believe that good food can
+          At <span className="font-semibold">Gourment</span>, we believe that good food can
           create unforgettable moments. Founded in 2020, we started with a simple mission: to make
           quality meals accessible to everyone. Whether it’s a cozy dinner at home or a celebration
           with friends, we deliver a variety of dishes right to your doorstep.
@@ -26,7 +27,7 @@ const AboutPage = () => {
       {/* Our Mission Section */}
       <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <img
-          src="https://via.placeholder.com/400x300"
+          src={Logo}
           alt="Our Mission"
           className="rounded-lg shadow-lg"
         />

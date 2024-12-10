@@ -1,30 +1,20 @@
 import React, { useState, useEffect } from "react";
 import RestaurantCard from "../../components/user/RestaurantCard";
-import RestData from "../../data/ResData";
+import { axiosInstance } from "../../config/axiosInstance";
+import { ProductSkelton } from "../../components/shared/Skelton";
+import useFetch from "../../hooks/useFetch";
+
+
 const AllRestaurantPage = () => {
-  const [restaurants, setRestaurants] = useState([]); // Full restaurant list
+  const [restaurants,isLoading,error] = useFetch('/restaurant/')
+  console.log('restaurants',restaurants)
+ 
   const [filteredRestaurants, setFilteredRestaurants] = useState([]); // Filtered list
   const [searchQuery, setSearchQuery] = useState(""); // Search input
   const [filterType, setFilterType] = useState("all"); // Cuisine filter
 
-  // Mock data: Replace with API call in real applications
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      const mockData = [
-        { id: 1, name: "Pizza Palace", cuisine: "Italian", rating: 4.5 },
-        { id: 2, name: "Sushi Spot", cuisine: "Japanese", rating: 4.8 },
-        { id: 3, name: "Curry Corner", cuisine: "Indian", rating: 4.2 },
-        { id: 4, name: "Burger Barn", cuisine: "American", rating: 4.0 },
-        { id: 5, name: "Taco Time", cuisine: "Mexican", rating: 4.3 },
-      ];
-      setRestaurants(mockData);
-      setFilteredRestaurants(mockData);
-    };
 
-    fetchRestaurants();
-  }, []);
-
-  // Handle search
+  // Handle search 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setSearchQuery(value);
@@ -75,8 +65,15 @@ const AllRestaurantPage = () => {
         </select>
       </div>
       <div className="flex flex-wrap md:gap-10 mt-5">
-      {RestData.map((item,index)=> <RestaurantCard data={item} key={index}/>)}
-
+        { isLoading ? (
+             <ProductSkelton />
+        ) : (
+          <>
+            {restaurants?.map((item)=> (
+            <RestaurantCard data={item} key={item._id}/>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

@@ -25,7 +25,11 @@ const restaurantSchema = new mongoose.Schema({
         default: 'open'
     },
     owner: { type:String}, 
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    image:{
+        type:String,
+    }
+    
 });
 
 restaurantSchema.index({ "address.location": "2dsphere" });

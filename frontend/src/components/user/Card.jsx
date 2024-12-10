@@ -1,18 +1,22 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const card = ({image, title }) => {
+const card = ({data}) => {
   return (
-    <div className={`cardslider rounded-2xl overflow-hidden bg-base-100 w-60  shadow-xl`}>
+    <div className={`cardslider rounded-2xl overflow-hidden bg-base-100 w-60    shadow-xl`}>
+      <Link to={`/menu/${data.name}`} >
       <figure>
         <img className='w-[100%] h-[15vh]'
-          src={image}
-          alt={title} />
+          src={data.image}
+          alt={data.name} />
       </figure>
       <div className="card-body flex justify-center">
-        <h2 className="card-title ">{title}</h2>
+        <h2 className="card-title ">{data.name}</h2>
         <div className="card-actions">
         </div>
       </div>
+      </Link>
+     
       </div>
   )
 }

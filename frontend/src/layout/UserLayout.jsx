@@ -7,7 +7,7 @@ import UserHeader from '../components/user/UserHeader'
 
 const UserLayout= () => {
   
-  const [isUserAuth,setIsUserAuth] = useState(true)
+  const [isUserAuth,setIsUserAuth] = useState(false)
   
   return (
     <div>
