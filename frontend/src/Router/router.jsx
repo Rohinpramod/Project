@@ -16,6 +16,8 @@ import RestaurantPage from "../pages/User/RestaurantPage";
 import RatingPage from "../pages/User/Rating";
 import CreateRestaurant from "../pages/restaurantManager/CreateResturant";
 import LoginPage from "../pages/shared/Login";
+import CheckoutPage from "../pages/User/CheckoutPage";
+import ReviewPage from "../pages/User/ReviewPage";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +69,14 @@ const router = createBrowserRouter([
         path: "contact",
         element: <Contact />,
       },
+      {
+        path:"checkout",
+        element:<CheckoutPage />
+      },
+      {
+        path:"review/:id",
+        element:<ReviewPage />
+      }
     ],
   },
 ]);
