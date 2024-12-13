@@ -14,7 +14,7 @@ const restaurantSchema = new mongoose.Schema({
     },
     cuisine: { type: String, required: true },
     rating: { type: Number, default: 0 },
-    menuItems: [{ type: String,}],
+    menuItems: [{ type: mongoose.Schema.Types.ObjectId,ref:"MenuItem"}],
     contact: {
         phone: String,
         email: String

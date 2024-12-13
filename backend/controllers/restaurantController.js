@@ -7,17 +7,17 @@ const MenuItem = require('../models/menuItemModel');
 
 exports.createRestaurant = async (req, res) => {
   try {
-    const { name, location, cuisine } = req.body;
+    const { name, location, cuisine,rating,status,contact } = req.body;
 
     if (!name || !location || !cuisine) {
       return res.status(400).json({ message: "all fields required" });
   }
     //clodinaryupload
    
-   let imageUrl
-   if(req.file){
-    const cloudinaryupload = await cloudinaryInstance.uploader.upload(res.file.path)
-    imageUrl = cloudinaryupload.url
+    let imageUrl 
+    if (req.file) {
+      const uploadResponse = await cloudinaryInstance.uploader.upload(req.file.path);
+      imageUrl = uploadResponse.url;
    }
    
 
@@ -51,7 +51,7 @@ exports.getRestaurants = async (req, res) => {
 
 exports.getRestaurantById = async (req, res) => {
   try {
-    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    const restaurant = await Restaurant.findById(req.params.restaurantId).populate("menuItems");
     if (!restaurant)
       return res.status(404).json({ message: "Restaurant not found" });
 
