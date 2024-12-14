@@ -8,7 +8,7 @@ import FoodCarousel from "../../components/slider/slider";
 import SimpleSlider from "../../components/slider/slider";
 import RestaurantCard from "../../components/user/RestaurantCard";
 import { axiosInstance } from "../../config/axiosInstance";
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../../hooks/UseFetch";
 
 var settings = {
   dots: true,

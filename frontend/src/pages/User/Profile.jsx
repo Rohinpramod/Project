@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useFetch from "../../hooks/UseFetch";
 
 const ProfilePage = () => {
+
+  const [profile, setProfile, error] = useFetch('/user/profile');
+  
+  console.log("profile====",profile);
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       {/* Profile Header */}
@@ -9,12 +15,12 @@ const ProfilePage = () => {
         <div className="flex justify-center md:justify-start">
           <img
             className="w-32 h-32 rounded-full border-4 border-orange-400 object-cover"
-            src="https://via.placeholder.com/150"
+            src="http"
             alt="Profile"
           />
         </div>
         <div className="text-center md:text-left">
-          <h1 className="text-2xl font-bold">Rohin Pramod</h1>
+          <h1 className="text-2xl font-bold">name</h1>
          
         </div>
       </div>
@@ -28,26 +34,10 @@ const ProfilePage = () => {
             <li className="flex items-center gap-4">
               <img
                 className="w-16 h-16 rounded-md"
-                src="https://via.placeholder.com/80"
+                src=""
                 alt="Pizza"
               />
               <span>Margherita Pizza</span>
-            </li>
-            <li className="flex items-center gap-4">
-              <img
-                className="w-16 h-16 rounded-md"
-                src="https://via.placeholder.com/80"
-                alt="Burger"
-              />
-              <span>Cheeseburger</span>
-            </li>
-            <li className="flex items-center gap-4">
-              <img
-                className="w-16 h-16 rounded-md"
-                src="https://via.placeholder.com/80"
-                alt="Sushi"
-              />
-              <span>Salmon Sushi</span>
             </li>
           </ul>
         </div>

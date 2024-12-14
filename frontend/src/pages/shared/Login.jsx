@@ -1,35 +1,42 @@
 import React, { useState } from 'react';
 import { axiosInstance } from '../../config/axiosInstance';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
-const Login = ({ isOpen, onClose, onOpenSignUp }) => {
-  const [email, setEmail ] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-
-  const handleSubmit = async(value)=>{
-    value.preventDefault();
-    setError('');
-    setLoading(true);
-    try{
-      const response = await axiosInstance.post('/user/login',{
-        email,
-        password,
-      });
-      console.log(response)
-      if(response.data.message === ' Login succssfully'){
-        alert("login successful")
-      }
-    }catch(error){
-      console.log(error.message);
-      alert(error.message)
-    }finally{
-      onClose();
-    }
-  }
+const Login = ({ isOpen, onClose, onOpenSignUp, role = "user" }) => {
   
+  const {register, handleSubmit} = useForm();
+  const navigate = useNavigate();
+
+  const user = {
+    role:"user",
+    login_api:"/user/login",
+    profile_route:"user/profile",
+    signup_route:{onOpenSignUp},
+  };
+  
+  if (role === "mentor") {
+    user.role = "mentor";
+    (user.login_api = `/mentor/login`), (user.profile_route = "/mentor/profile"), (user.signup_route = `/mentor/${onOpenSignUp}`);
+}
+
+  console.log("user==",user);
+
+  const onSubmit = async (data) => {
+    try {
+        console.log('data===',data);
+        
+        const response = await axiosInstance({ method: "POST", url: user.login_api, data });
+        console.log("response===",response);
+
+        toast.success("Log-in success");
+        navigate(user.profile_route);
+    } catch (error) {
+        toast.error("Log-in failed");
+        console.log(error);
+    }
+};
 
   return (
     <div
@@ -47,13 +54,12 @@ const Login = ({ isOpen, onClose, onOpenSignUp }) => {
         </button>
       </div>
       <div className="p-4">
-        <form className="space-y-4"onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
               placeholder="Enter your email"
             />
@@ -62,8 +68,7 @@ const Login = ({ isOpen, onClose, onOpenSignUp }) => {
             <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
               placeholder="Enter your password"
             />

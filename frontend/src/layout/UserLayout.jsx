@@ -15,6 +15,8 @@ const UserLayout= () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  console.log("location.pathname",location.pathname)
+  
   
   const checkUser = async ()=>{
     try{
@@ -35,6 +37,7 @@ const UserLayout= () => {
 
   useEffect(()=>{
     checkUser();
+
   },[location.pathname]);
 
 

@@ -7,7 +7,6 @@ import Contact from "../pages/User/Contact";
 import OrderDetails from "../../src/pages/User/OrderDetails";
 import SearchPage from "../pages/User/SearchPage";
 import Signup from "../pages/shared/Signup";
-import Profile from "../pages/User/Profile";
 import Payment from "../pages/User/Payment";
 import UserLayout from "../layout/UserLayout";
 import ErrorPage from "../pages/shared/ErrorPage";
@@ -18,6 +17,8 @@ import CreateRestaurant from "../pages/restaurantManager/CreateResturant";
 import LoginPage from "../pages/shared/Login";
 import CheckoutPage from "../pages/User/CheckoutPage";
 import ReviewPage from "../pages/User/ReviewPage";
+import { ProtectedRoute } from "./ProtectedRoute";
+import ProfilePage from "../pages/User/Profile";
 
 const router = createBrowserRouter([
   {
@@ -34,16 +35,12 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "/loginPage",
+        path: "loginPage",
         element: <LoginPage />,
       },
       {
         path: "about",
         element: <About />,
-      },
-      {
-        path: "payment",
-        element: <Payment />,
       },
       {
         path: "all-restuarant",
@@ -54,28 +51,39 @@ const router = createBrowserRouter([
         element: <RestaurantPage />,
       },
       {
-        path: "cart",
-        element: <Cart />,
-      },
-      {
-        path: "order",
-        element: <OrderDetails />,
-      },
-      {
-        path: "user-profile",
-        element: <Profile />,
-      },
-      {
-        path: "contact",
-        element: <Contact />,
-      },
-      {
-        path:"checkout",
-        element:<CheckoutPage />
-      },
-      {
         path:"review/:id",
         element:<ReviewPage />
+      },
+      {
+        element:<ProtectedRoute />,
+        path:"user",
+        children:[
+          {
+            path: "/payment",
+            element: <Payment />,
+          },
+          {
+            path: "/cart",
+            element: <Cart />,
+          },
+          {
+            path: "/order",
+            element: <OrderDetails />,
+          },
+          {
+            path: "/profile",
+            element: <ProfilePage />,
+          },
+          {
+            path: "/contact",
+            element: <Contact />,
+          },
+          {
+            path:"/checkout",
+            element:<CheckoutPage />
+          },
+
+        ]
       }
     ],
   },

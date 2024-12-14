@@ -15,7 +15,7 @@ exports.addToCart = async (req, res) => {
     
     const itemPrice = menuItem.price * quantity;
     let cart = await Cart.findOne({ userId });
-    if (cart && cart.restaurantId !== restaurantId) {
+    if (cart && cart.restaurantId.toString() !== restaurantId) {
       return res
         .status(409)
         .json({
