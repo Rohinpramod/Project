@@ -4,9 +4,13 @@ import useFetch from "../../hooks/UseFetch";
 
 const ProfilePage = () => {
 
-  const [profile, setProfile, error] = useFetch('/user/profile');
+  const [profile, isLoading, error] = useFetch('/user/profile');
+  
   
   console.log("profile====",profile);
+
+
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -15,36 +19,36 @@ const ProfilePage = () => {
         <div className="flex justify-center md:justify-start">
           <img
             className="w-32 h-32 rounded-full border-4 border-orange-400 object-cover"
-            src="http"
+            src={profile?.data.profilePic}
             alt="Profile"
           />
         </div>
         <div className="text-center md:text-left">
-          <h1 className="text-2xl font-bold">name</h1>
+          <h1 className="text-2xl font-bold">{profile?.data.name}</h1>
          
         </div>
       </div>
 
       {/* Profile Content */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Favorite Dishes */}
+        {/* Favorite Dishes
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-lg font-bold mb-4">Favorite Dishes</h2>
           <ul className="text-gray-600 space-y-4">
             <li className="flex items-center gap-4">
               <img
                 className="w-16 h-16 rounded-md"
-                src=""
+                src={""}
                 alt="Pizza"
               />
               <span>Margherita Pizza</span>
             </li>
           </ul>
-        </div>
+        </div> */}
 
-        {/* Order History */}
+        {/* Orders */}
         <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-bold mb-4">Order History</h2>
+          <h2 className="text-lg font-bold mb-4">Your Orders</h2>
           <ul className="text-gray-600 space-y-2">
             <li>
               <span className="font-medium">Order #12345:</span> Margherita Pizza - ₹350
@@ -57,9 +61,9 @@ const ProfilePage = () => {
             </li>
           </ul>
           <div className="mt-4">
-            <Link to="/order">
-            <button className="btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
-              View All Orders
+            <Link to="/user/order">
+            <button className="btn bg-orange-400 text-white hover:bg-orange-500  px-4 py-2 rounded-md">
+              View  Orders
             </button>
             </Link>
             

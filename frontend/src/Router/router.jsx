@@ -55,34 +55,34 @@ const router = createBrowserRouter([
         element:<ReviewPage />
       },
       {
+        path: "payment",
+        element: <Payment />,
+      },
+      {
         element:<ProtectedRoute />,
         path:"user",
         children:[
           {
-            path: "/payment",
-            element: <Payment />,
-          },
-          {
-            path: "/cart",
+            path: "cart",
             element: <Cart />,
           },
           {
-            path: "/order",
+            path: "order",
             element: <OrderDetails />,
           },
           {
-            path: "/profile",
+            path: "profile",
             element: <ProfilePage />,
           },
           {
-            path: "/contact",
+            path: "contact",
             element: <Contact />,
           },
           {
-            path:"/checkout",
+            path:"checkout",
             element:<CheckoutPage />
           },
-
+         
         ]
       }
     ],
