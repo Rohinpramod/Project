@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Address = require("../models/addressModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require('../utils/token');
@@ -60,18 +61,33 @@ exports.login = async (req, res) =>{
 };
 
 //Profile
-exports.getProfile = async (req,res,next)=>{
+exports.getProfile = async (req, res, next) => {
     try {
-        
-        const userId =req.user.id;
+        const userId = req.user.id;
+
+        // Retrieve user profile excluding password
         const userProfile = await User.findById(userId).select("-password");
-   
-   
-           res.json({ message: " successfull", data:userProfile });
-       } catch (error) {
-           res.status(500).json({ messsage:error.message || "Internal server error" });
-       }
-   };
+
+        if (!userProfile) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Retrieve user addresses
+        const userAddresses = await Address.find({ user: userId });
+
+        // Combine user profile and addresses
+        res.json({ 
+            message: "Profile fetched successfully", 
+            data: {
+                profile: userProfile,
+                addresses: userAddresses
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message || "Internal server error" });
+    }
+};
+
 
 //RestPassword
 exports.resetPassword = async (req, res) => {
