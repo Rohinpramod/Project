@@ -1,7 +1,28 @@
 import React from "react";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const MenuCard = ({ menucard }) => {
-  console.log(menucard)
+  const onSubmit = async () => {
+    try {
+      const response = await axiosInstance.post("cart/add-to-cart", {
+        foodId: menucard._id, 
+        restaurantId: menucard.restaurant, 
+        quantity: 1, 
+      });
+
+      // if (response.status === 200) {
+      //   alert("Item added to cart successfully!");
+      //   console.log("Cart Details:", response.data.cart);
+      // } else {
+      //   alert(response.data.message || "Failed to add item to cart.");
+      // } 
+      console.log("response===",response);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert(error.response?.data?.message || "Something went wrong!");
+    }
+  };
+
   return (
     <div>
       <div className="card lg:card-side ma bg-base-100 shadow-xl">
@@ -39,12 +60,14 @@ const MenuCard = ({ menucard }) => {
               className="mask mask-star-2 bg-orange-400"
             />
           </div>
-            <div>
-                <p>₹ {menucard.price}</p>
-                <p>{menucard.description} </p>
-            </div>
-          <div className="card-actions justify-end  absolute top-0 right-0 m-2">
-            <button className="btn bg-orange-400">Add to Cart</button>
+          <div>
+            <p>₹ {menucard.price}</p>
+            <p>{menucard.description}</p>
+          </div>
+          <div className="card-actions justify-end absolute top-0 right-0 m-2">
+            <button className="btn bg-orange-400" onClick={onSubmit}>
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>

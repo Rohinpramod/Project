@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../../hooks/UseFetch";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const ProfilePage = () => {
 
@@ -8,9 +9,6 @@ const ProfilePage = () => {
   
   
   console.log("profile====",profile);
-
-
-
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -85,7 +83,7 @@ const ProfilePage = () => {
             </li>
           </ul>
           <div className="mt-4">
-          <Link to="/contact">
+          <Link to="/user/contact">
           <button className="btn bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md">
               Edit Settings
             </button>

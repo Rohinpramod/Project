@@ -5,20 +5,39 @@ import { FaUserCircle } from "react-icons/fa";
 
 
 import logo from '../../assets/images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../../config/axiosInstance';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'About Us', href: "about", current: true },
   { name: 'Restaurants', href: 'all-restuarant', current: false },
   { name: '', href: '#', current: false },
-]
+] 
+
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 function UserHeader() {
+  const navigate = useNavigate();
+  const userLogout = async()=>{
+    try{
+      const response = await axiosInstance({
+        method:"PUT", url:'user/logout'
+      });
+      toast.success("logout successfully")
+      navigate('/')
+
+    }catch(error){
+      console.log(error);
+    }
+  }
+  
   return (
     <Disclosure as="nav" className="bg-orange-400">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -108,12 +127,12 @@ function UserHeader() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="/header"
+                  <p
+                    onClick={userLogout}
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                   >
                     Sign out
-                  </a>
+                  </p>
                 </MenuItem>
               </MenuItems>
             </Menu>

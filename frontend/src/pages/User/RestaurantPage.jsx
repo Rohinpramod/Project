@@ -67,7 +67,7 @@ const RestaurantPage = () => {
       </div>
 
           <div className="mt-6">
-            <Link to={`/order/${id}`}>
+            <Link to={``}>
             <button className="bg-orange-400 text-white px-6 py-2 rounded-lg">
               Order Online
             </button>
