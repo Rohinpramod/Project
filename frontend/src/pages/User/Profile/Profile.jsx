@@ -1,15 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import useFetch from "../../hooks/UseFetch";
-import { axiosInstance } from "../../config/axiosInstance";
+import useFetch from "../../../hooks/UseFetch";
+import { axiosInstance } from "../../../config/axiosInstance";
+import SavedAddresses from "./SavedAdress";
 
 const ProfilePage = () => {
 
   const [profile, isLoading, error] = useFetch('/user/profile');
-  
-  
   console.log("profile====",profile);
-
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       {/* Profile Header */}
@@ -17,12 +15,12 @@ const ProfilePage = () => {
         <div className="flex justify-center md:justify-start">
           <img
             className="w-32 h-32 rounded-full border-4 border-orange-400 object-cover"
-            src={profile?.data.profilePic}
+            src={profile?.data.profile.profilePic}
             alt="Profile"
           />
         </div>
         <div className="text-center md:text-left">
-          <h1 className="text-2xl font-bold">{profile?.data.name}</h1>
+          <h1 className="text-2xl font-bold">{profile?.data.profile.name}</h1>
          
         </div>
       </div>
@@ -59,7 +57,7 @@ const ProfilePage = () => {
             </li>
           </ul>
           <div className="mt-4">
-            <Link to="/user/order">
+            <Link to="/order">
             <button className="btn bg-orange-400 text-white hover:bg-orange-500  px-4 py-2 rounded-md">
               View  Orders
             </button>
@@ -83,13 +81,18 @@ const ProfilePage = () => {
             </li>
           </ul>
           <div className="mt-4">
-          <Link to="/user/contact">
+          <Link to="/contact">
           <button className="btn bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md">
               Edit Settings
             </button>
           </Link>
           </div>
         </div>
+
+         {/* saved addressss */}
+         <div>
+          <SavedAddresses addresses={profile?.data.addresses}/>
+         </div>
       </div>
     </div>
   );

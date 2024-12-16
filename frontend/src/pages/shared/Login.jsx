@@ -12,7 +12,7 @@ const Login = ({ isOpen, onClose, onOpenSignUp, role = "user" }) => {
   const user = {
     role:"user",
     login_api:"/user/login",
-    profile_route:"user/profile",
+    profile_route:"/",
     signup_route:{onOpenSignUp},
   };
   
@@ -25,13 +25,13 @@ const Login = ({ isOpen, onClose, onOpenSignUp, role = "user" }) => {
 
   const onSubmit = async (data) => {
     try {
-        console.log('data===',data);
         
         const response = await axiosInstance({ method: "POST", url: user.login_api, data });
         console.log("response===",response);
 
         toast.success("Log-in success");
-        navigate(user.profile_route);
+        // navigate(user.profile_route);
+        window.location.reload()
     } catch (error) {
         toast.error("Log-in failed");
         console.log(error);

@@ -1,43 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import RestaurantCard from "../../components/user/RestaurantCard";
-import { axiosInstance } from "../../config/axiosInstance";
 import { ProductSkelton } from "../../components/shared/Skelton";
-import useFetch from "../../hooks/useFetch";
-
+import useFetch from "../../hooks/UseFetch";
 
 const AllRestaurantPage = () => {
-  const [restaurants,isLoading,error] = useFetch('/restaurant/')
-  console.log('restaurants',restaurants)
- 
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]); // Filtered list
-  const [searchQuery, setSearchQuery] = useState(""); // Search input
-  const [filterType, setFilterType] = useState("all"); // Cuisine filter
+  const [searchQuery, setSearchQuery] = useState(""); 
+  const [selectedCuisine, setSelectedCuisine] = useState("all");
 
+  // Dynamically pass search and filter params
+  const [restaurants, isLoading, error] = useFetch("/restaurant/", {
+    search: searchQuery,
+    cuisine: selectedCuisine !== "all" ? selectedCuisine : undefined,
+  });
 
-  // Handle search 
   const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchQuery(value);
-
-    const filtered = restaurants.filter((restaurant) =>
-      restaurant.name.toLowerCase().includes(value)
-    );
-    setFilteredRestaurants(filtered);
+    setSearchQuery(e.target.value);
   };
 
-  // Handle filter change
-  const handleFilterChange = (e) => {
-    const value = e.target.value;
-    setFilterType(value);
-
-    if (value === "all") {
-      setFilteredRestaurants(restaurants);
-    } else {
-      const filtered = restaurants.filter(
-        (restaurant) => restaurant.cuisine.toLowerCase() === value.toLowerCase()
-      );
-      setFilteredRestaurants(filtered);
-    }
+  const handleCuisineChange = (e) => {
+    setSelectedCuisine(e.target.value);
   };
 
   return (
@@ -48,12 +29,12 @@ const AllRestaurantPage = () => {
           type="text"
           placeholder="Search for restaurants..."
           value={searchQuery}
-          onChange={handleSearch}
+          onChange={handleSearch} // Update state on search
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
         />
         <select
-          value={filterType}
-          onChange={handleFilterChange}
+          value={selectedCuisine}
+          onChange={handleCuisineChange} // Update state on cuisine change
           className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
         >
           <option value="all">All Cuisines</option>
@@ -65,14 +46,16 @@ const AllRestaurantPage = () => {
         </select>
       </div>
       <div className="flex flex-wrap md:gap-10 mt-5">
-        { isLoading ? (
-             <ProductSkelton />
+        {isLoading ? (
+          <ProductSkelton />
+        ) : error ? (
+          <div>Error: {error.message}</div>
+        ) : restaurants && restaurants.length > 0 ? (
+          restaurants.map((item) => (
+            <RestaurantCard data={item} key={item._id} />
+          ))
         ) : (
-          <>
-            {restaurants?.map((item)=> (
-            <RestaurantCard data={item} key={item._id}/>
-            ))}
-          </>
+          <div>No restaurants found.</div>
         )}
       </div>
     </div>

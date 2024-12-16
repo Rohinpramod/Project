@@ -1,5 +1,6 @@
 import React from "react";
 import { axiosInstance } from "../../config/axiosInstance";
+import toast from "react-hot-toast";
 
 const MenuCard = ({ menucard }) => {
   const onSubmit = async () => {
@@ -9,7 +10,7 @@ const MenuCard = ({ menucard }) => {
         restaurantId: menucard.restaurant, 
         quantity: 1, 
       });
-
+      toast.success('Item added to cart')
       // if (response.status === 200) {
       //   alert("Item added to cart successfully!");
       //   console.log("Cart Details:", response.data.cart);

@@ -15,10 +15,10 @@ import RestaurantPage from "../pages/User/RestaurantPage";
 import RatingPage from "../pages/User/Rating";
 import CreateRestaurant from "../pages/restaurantManager/CreateResturant";
 import LoginPage from "../pages/shared/Login";
-import CheckoutPage from "../pages/User/CheckoutPage";
+import CheckoutPage from "../pages/User/CheckoutPage/CheckoutPage";
 import ReviewPage from "../pages/User/ReviewPage";
 import { ProtectedRoute } from "./ProtectedRoute";
-import ProfilePage from "../pages/User/Profile";
+import ProfilePage from "../pages/User/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
       },
       {
         element:<ProtectedRoute />,
-        path:"user",
+        path:"/",
         children:[
           {
             path: "cart",
