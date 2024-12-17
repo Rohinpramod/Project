@@ -16,9 +16,9 @@ const Login = ({ isOpen, onClose, onOpenSignUp, role = "user" }) => {
     signup_route:{onOpenSignUp},
   };
   
-  if (role === "mentor") {
-    user.role = "mentor";
-    (user.login_api = `/mentor/login`), (user.profile_route = "/mentor/profile"), (user.signup_route = `/mentor/${onOpenSignUp}`);
+  if (role === "admin") {
+    user.role = "admin";
+    (user.login_api = `/admin/login`), (user.profile_route = "/admin/profile"), (user.signup_route = `/admin/${onOpenSignUp}`);
 }
 
   console.log("user==",user);
