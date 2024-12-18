@@ -3,6 +3,7 @@ const RazorPay = require('razorpay');
 const dotenv = require('dotenv');
 const Order = require('../models/orderModel');
 const Crypto = require('crypto');
+const Cart = require('../models/cartModel');
 
 dotenv.config();
 
@@ -52,21 +53,39 @@ exports.createPayment = async(req,res) =>{
     }
 };
 
-exports.verifyPayment = async (req,res)=>{
-    try{
-        const { orderId, transctionId, signature } = req.body;
-        const order = await Order.findById(orderId);
-        const secret = process.env.RAZORPAY_SECRET_KEY;
-        const hmac = crypto.createHmac("sha256",secret);
-            hmac.update(orderId + "|" + transctionId);
-        const generateSignature = hmac.digest("hex");
-        if(generateSignature === signature){
-            order.status = "confirmed"
-            return res.status(200).json({success: true, message: "Payment verified"});
-        }else{
-            return res.status(400).json({success:false, message: "Payment not verified"});
-        }
-    }catch(error){
-        res.status(500).json({message:error.message});
+exports.verifyPayment = async (req, res) => {
+    try {
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+      const sign = razorpay_order_id + "|" + razorpay_payment_id;
+      const generated_signature = crypto
+        .createHmac('sha256', process.env.RAZORPAY_SECRET_KEY) 
+        .update(sign)
+        .digest('hex');
+  
+      if (generated_signature === razorpay_signature) {
+        const payment = await Payment.findOneAndUpdate(
+          { transactionId: razorpay_order_id },
+          { status: "success" },
+          { new: true }
+        );
+        const order = await Order.findOneAndUpdate( {_id: payment.orderId}, { status: "confirmed"})
+        
+         const cart = await Cart.findOneAndUpdate(
+            { _id: order.cartId },
+            { cartStatus: "ordered" },
+            { new: true }
+          );
+        console.log(cart);
+        console.log(order)
+        console.log(payment.orderId)
+        return res.status(200).json({ message: "Payment is successful" });
+  
+      } else {
+        return res.status(400).json({ message: "Payment verification failed at backend" });
+      }
+  
+    } catch (error) {
+      console.error("Error during payment verification:", error.message);
+      return res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 };
