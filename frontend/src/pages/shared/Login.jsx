@@ -12,26 +12,26 @@ const Login = ({ isOpen, onClose, onOpenSignUp, role = "user" }) => {
   const user = {
     role:"user",
     login_api:"/user/login",
-    profile_route:"user/profile",
+    profile_route:"/",
     signup_route:{onOpenSignUp},
   };
   
-  if (role === "mentor") {
-    user.role = "mentor";
-    (user.login_api = `/mentor/login`), (user.profile_route = "/mentor/profile"), (user.signup_route = `/mentor/${onOpenSignUp}`);
+  if (role === "admin") {
+    user.role = "admin";
+    (user.login_api = `/admin/login`), (user.profile_route = "/admin/profile"), (user.signup_route = `/admin/${onOpenSignUp}`);
 }
 
   console.log("user==",user);
 
   const onSubmit = async (data) => {
     try {
-        console.log('data===',data);
         
         const response = await axiosInstance({ method: "POST", url: user.login_api, data });
         console.log("response===",response);
 
         toast.success("Log-in success");
-        navigate(user.profile_route);
+        // navigate(user.profile_route);
+        window.location.reload()
     } catch (error) {
         toast.error("Log-in failed");
         console.log(error);
