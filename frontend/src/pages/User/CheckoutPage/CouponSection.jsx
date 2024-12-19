@@ -39,9 +39,7 @@ function CouponSection({
         Toast.error(response.message || "Invalid coupon code.");
       }
     } catch (error) {
-      console.log(error);
-
-      Toast.error("Something went wrong. Please try again.");
+      Toast.error(error?.response?.data?.message);
     }
     setLoading(false);
   };

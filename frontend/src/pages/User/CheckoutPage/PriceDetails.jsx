@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRazorpay } from "react-razorpay";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../../config/axiosInstance";
@@ -11,8 +11,9 @@ function PriceDetails({
   selectedCoupon,
   setSelectedCoupon,
   selectedAddressId,
+  setSelectedAddressId,
+  address
 }) {
-
  const navigate = useNavigate()
   
   if (!cart) {
@@ -23,71 +24,67 @@ function PriceDetails({
   const { error, isLoading, Razorpay } = useRazorpay();
   const handleCheckout = async () => {
     if (!cart || cart.length === 0) {
-     return toast.error("Your cart is empty. Please add items to the cart.");
+      return toast.error("Your cart is empty. Please add items to the cart.");
     }
-    if (!selectedAddressId) {
-      return toast.error("Please select an address to proceed.");
-    }
-    const checkoutData = {
-      restaurant: cart.restaurantId,
-      cartId: cart._id,
-      coupon: selectedCoupon || null,
-      deliveryAddress: selectedAddressId,
-    };
+  
     try {
-      const response = await axiosInstance.post(
-        "/order/create-order",
-        checkoutData
-      );
-      const orderId= response?.data?.order?._id
-      setSelectedCoupon(null)
+      // Save address if not already selected
+      let addressId = selectedAddressId;
+      if (!addressId) {
+        const response = await axiosInstance.post("/address/add", address);
+        addressId = response.data.address._id;
+        if (!addressId) {
+          throw new Error("Failed to save the address.");
+        }
+        setSelectedAddressId(addressId); // Update state with the new address ID
+      }
+  
+      // Proceed with the checkout
+      const checkoutData = {
+        restaurant: cart.restaurantId,
+        cartId: cart._id,
+        coupon: selectedCoupon || null,
+        deliveryAddress: addressId, // Use the updated or existing address ID
+      };
+  
+      const response = await axiosInstance.post("/order/create-order", checkoutData);
+      const orderId = response?.data?.order?._id;
+      setSelectedCoupon(null);
+  
       // Create payment
-      const payment = await axiosInstance.post(
-        `/order/${response.data.order?._id}/payment`
-      );
+      const payment = await axiosInstance.post(`/order/${orderId}/payment`);
       const options = {
         key: `${import.meta.env.VITE_RAZORPAY_ID_KEY}`,
         amount: payment.data.razorpayOrder.amount,
         currency: "INR",
         name: "Capstone",
         description: "Capstone",
-        order_id: payment.data.razorpayOrder.id,     
-        handler: async (response) => {        
+        order_id: payment.data.razorpayOrder.id,
+        handler: async (response) => {
           try {
-            const verifyPayment = await axiosInstance.post(
-              "/order/verify-payment",
-              response
-            );
-            setSelectedCoupon(null);        
-            navigate(`/invoice/${orderId}`,{state:{discount:discount}})
+            await axiosInstance.post("/order/verify-payment", response);
+            setSelectedCoupon(null);
+            navigate(`/invoice/${orderId}`, { state: { discount } });
             toast.success("Your order is placed successfully");
           } catch (error) {
-            console.error("verification:", error);
+            console.error("Verification failed:", error);
             toast.error("Payment verification failed.");
           }
         },
-        // prefill: {
-        //   name: appState.user?.name,
-        //   email: appState.user?.email,
-        //   contact: appState.user?.contact,
-        // },
         theme: {
           color: "#1E1E1E",
         },
       };
-
+  
       const razorpayInstance = new Razorpay(options);
       razorpayInstance.open();
     } catch (error) {
-      console.error(
-        "Failed to place the order:",
-        error.response?.data || error.message
-      );
-      toast.error(
-        error.response?.data?.message || "Error while placing the order."
-      );
+      console.error("Failed to place the order:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Error while placing the order.");
     }
   };
+  
+  
 
   return (
     <>

@@ -47,12 +47,19 @@ exports.createOrder = async (req, res) => {
 exports.getAllOrders = async (req,res)=>{
     try{
         const user = req.user.id
-        const orders = await Order.find({user})
+        const orders = await Order.find({user}).sort({createdAt:-1})
         .populate("user", "name email phone")
         .populate("restaurant", "name location")
-        .populate("cartId", "items totalPrice")
+        .populate({
+          path: "cartId",
+          select: "items totalPrice",
+          populate: {
+            path: "items.foodId",
+            select: "name",
+          },
+        })
         .populate("coupon", "code discountPercentage maxDiscountValue")
-        .populate("deliveryAddress", "street city state zipCode"); 
+        .populate("deliveryAddress", "street city state zipCode")
         if(!orders){
             return res.status(404).json({message: "No orders found for this profile"})
         }
@@ -61,7 +68,7 @@ exports.getAllOrders = async (req,res)=>{
         res.status(500).json({message: error.message})
     }
   }
-
+  
   exports.getOrderById = async (req, res) => {
     try {
         const user = req.user.Id
