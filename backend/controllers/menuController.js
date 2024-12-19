@@ -7,7 +7,7 @@ const Restaurant = require("../models/restaurantModel");
 //create Menu items
 exports.createMenuItem = async (req, res) => {
   try {
-    const { name, price, category, isAvailable,description } = req.body;
+    const { name, price, category, isAvailable,description,image } = req.body;
     const restaurantId = req.params.restaurantId.trim();
 
    const restaurant = await Restaurant.findById(restaurantId);
