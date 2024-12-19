@@ -8,7 +8,7 @@ exports.createRestaurant = async (req, res) => {
   try {
     const { name, location, cuisine, rating, status, contact } = req.body;
 
-    if (!name || !location || !cuisine) {
+    if (!name || !cuisine) {
       return res.status(400).json({ message: "all fields required" });
     }
     //clodinaryupload
@@ -82,9 +82,6 @@ exports.updateRestaurant = async (req, res) => {
     const restaurant = await Restaurant.findById(req.params.restaurantId);
     if (!restaurant)
       return res.status(404).json({ message: "Restaurant not found" });
-
-    if (restaurant.owner.toString() !== req.user.userId)
-      return res.status(403).json({ message: "Unauthorized action" });
 
     Object.assign(restaurant, req.body);
     await restaurant.save();

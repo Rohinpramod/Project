@@ -6,30 +6,34 @@ const { generateToken } = require('../utils/token');
 
 //signup
 exports.signup = async (req,res) =>{
+    
     try {
+        console.log("req.body",req.body)
         const { name, email, password, mobile, profilePic,role } = req.body;
-
+        
         if (!name || !email || !password || !mobile) {
             return res.status(400).json({ message: "all fields required" });
         }
 
         const userExist = await User.findOne({ email: email });
-
+        console.log("userExisttttt",userExist)
         if (userExist) {
             return res.status(400).json({ message: "user already exist" });
         }
+        
 
         const hashedPassword = bcrypt.hashSync(password, 10);
         
 
         const newUser = new User({ name, email, password: hashedPassword, mobile, profilePic,role });
         await newUser.save();
-
+        console.log("newUser",newUser)
         const token = generateToken(newUser,'user')
         res.cookie('token',token);
 
         res.json({ message: " SignIn successfully" });
     } catch (error) {
+        console.log(error)
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

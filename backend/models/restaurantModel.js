@@ -2,16 +2,9 @@ const mongoose = require('mongoose');
 
 const restaurantSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    address: {
-        street: String,
-        city: String,
-        state: String,
-        zipCode: String,
-        location: {
-            type: { type: String, enum: ['Point'] },
-            coordinates: { type: [Number] } // [longitude, latitude]
-        }
-    },
+    location: {
+        type: String,
+      },
     cuisine: { type: String, required: true },
     rating: { type: Number, default: 0 },
     menuItems: [{ type: mongoose.Schema.Types.ObjectId,ref:"MenuItem"}],
@@ -28,7 +21,8 @@ const restaurantSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     image:{
         type:String,
-    }
+    },
+   
     
 });
 
