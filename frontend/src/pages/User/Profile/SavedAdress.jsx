@@ -2,22 +2,24 @@ import React from 'react';
 
 function SavedAddresses({ addresses }) {
   return (
-    <div className="p-6 rounded-lg shadow-md bg-white">
-      <h2 className="text-2xl font-semibold  mb-4">Saved Addresses</h2>
-      <ul className="space-y-4">
-        {addresses?.map((address, index) => (
-          <li key={index} className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
-            <div>
-              <p className="">{address?.street}</p>
-              <p className="">{address?.city}, {address?.state} {address?.zipCode}</p>
-            </div>
-            <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <>
+            <div className="bg-white shadow-md rounded-lg p-6">
+            <h2 className="text-lg font-bold mb-4">Saved Addresses</h2>
+            {addresses?.length > 0 ? (
+              <ul className="text-gray-600 space-y-2">
+                {addresses?.map((address) => (
+                  <li key={address._id} className="border-b pb-2 mb-2">
+                    <p>
+                      <span className="font-medium">{address.name}:</span> {address.street}, {address.city}, {address.state} - {address.postalCode}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No addresses found.</p>
+            )}
+          </div>
+          </>
   );
 }
 

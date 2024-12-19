@@ -25,10 +25,10 @@ const MenuCard = ({ menucard }) => {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="card lg:card-side ma bg-base-100 shadow-xl">
         <figure>
-          <img className="w-80" src={menucard.image} alt={menucard.name} />
+          <img className="w-64" src={menucard.image} alt={menucard.name} />
         </figure>
         <div className="card-body">
           <h2 className="card-title mb-0">{menucard.name}</h2>

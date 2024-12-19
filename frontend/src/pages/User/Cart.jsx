@@ -3,13 +3,14 @@ import { IoTrashBin } from "react-icons/io5";
 import { axiosInstance } from "../../config/axiosInstance";
 import { Link } from "react-router-dom";
 import Toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { showAlert } from "../../utils/sweetAlert";
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState(null); // Initialize as null to handle loading state
+  const [cartItems, setCartItems] = useState(null);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  console.log("cartItems",cartItems);
-  
+  console.log("cartItems", cartItems);
 
   // Fetch cart items from the backend
   const fetchCartItems = async () => {
@@ -18,15 +19,13 @@ const CartPage = () => {
       const response = await axiosInstance({
         url: "/cart/get-cart-items",
       });
-      console.log("responseeeeeee",response);
-      setCartItems(response?.data.data || null); // Set cartItems or null if cart is empty
+      setCartItems(response?.data.data || null); 
       setLoading(false);
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchCartItems();
   }, []);
@@ -84,6 +83,12 @@ const CartPage = () => {
     );
   };
 
+  const handleProceedToCheckout = () => {
+    if (cartItems) {
+      navigate("/checkout", { state: { cart: cartItems } });
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>; // Loading state
   }
@@ -97,7 +102,6 @@ const CartPage = () => {
       ) : (
         <div className="space-y-6">
           {cartItems.items.map((item) => (
-     
             <div
               key={item.foodId._id} // Use the foodId as the key
               className="flex items-center justify-between border-b pb-4"
@@ -138,16 +142,13 @@ const CartPage = () => {
 
           <div className="mt-6 text-right">
             <p className="text-xl font-semibold">Total: ₹{calculateTotal()}</p>
-            <Link
-              to={{
-                pathname: "/checkout",
-                state: { cart: cartItems },
-              }}
+            <button
+              disabled={!cartItems}
+              onClick={handleProceedToCheckout}
+              className="mt-4 px-6 py-2 bg-orange-400 text-white font-semibold rounded-lg shadow-md hover:bg-orange-500"
             >
-              <button className="mt-4 px-6 py-2 bg-orange-400 text-white font-semibold rounded-lg shadow-md hover:bg-orange-500">
-                Proceed to Checkout
-              </button>
-            </Link>
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       )}

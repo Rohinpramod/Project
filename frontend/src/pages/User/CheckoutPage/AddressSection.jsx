@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 
-const AddressSection = ({ savedAddresses }) => {
-  const [address, setAddress] = useState({
-    name: "",
-    street: "",
-    city: "",
-    state: "",
-    zip: "",
-  });
+const AddressSection = ({
+  savedAddresses,
+  selectedAddressId,
+  setSelectedAddressId,
+  setAddress,
+  address
+}) => {
   const [useSavedAddress, setUseSavedAddress] = useState(false);
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
-
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setAddress((prevAddress) => ({
@@ -22,21 +19,21 @@ const AddressSection = ({ savedAddresses }) => {
   const handleSelectAddress = (id) => {
     const selected = savedAddresses.find((addr) => addr._id === id);
     if (selected) {
-      setAddress(selected); // Auto-fill the manual form with selected address
+      setAddress(selected); 
       setSelectedAddressId(id);
-      setUseSavedAddress(true); // Indicate saved address is being used
+      setUseSavedAddress(true); 
     }
   };
 
   const handleManualEntry = () => {
     setUseSavedAddress(false);
-    setSelectedAddressId(null); // Clear selected saved address
+    setSelectedAddressId(null); 
     setAddress({
       name: "",
       street: "",
       city: "",
       state: "",
-      zip: "",
+      postalCode: "",
     });
   };
 
@@ -59,7 +56,7 @@ const AddressSection = ({ savedAddresses }) => {
               >
                 <p>{addr.name}</p>
                 <p>
-                  {addr.street}, {addr.city}, {addr.state} {addr.zip}
+                  {addr.street}, {addr.city}, {addr.state} {addr.postalCode}
                 </p>
               </button>
             </li>
@@ -133,13 +130,13 @@ const AddressSection = ({ savedAddresses }) => {
           </div>
 
           <div>
-            <label className="block mb-1">ZIP Code:</label>
+            <label className="block mb-1">postalCode Code:</label>
             <input
               type="text"
-              name="zip"
-              value={address.zip}
+              name="postalCode"
+              value={address.postalCode}
               onChange={handleAddressChange}
-              placeholder="ZIP Code"
+              placeholder="postalCode Code"
               className="w-full px-4 py-2 border rounded"
               disabled={useSavedAddress}
               required

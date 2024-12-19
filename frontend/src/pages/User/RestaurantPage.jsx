@@ -82,7 +82,7 @@ const RestaurantPage = () => {
       </div>
       <hr className="mt-[30px] text-gray-900 " />
       <h2 className="mt-3 font-semibold text-xl ">Recommended</h2>
-        <div className="flex flex-col gap-1 mt-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3  gap-3  mt-3">
         {menuItems.length > 0 ? (
           menuItems.map((item, index) => <MenuCard menucard={item} key={index} />)
         ) : (

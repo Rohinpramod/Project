@@ -1,64 +1,102 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import Data from "../../../src/data/data";
-import Card from "../../components/user/Card";
-import RestData from "../../data/ResData";
-import coverPhoto from "../../../src/assets/images/coverPhoto.jpg";
-import FoodCarousel from "../../components/slider/slider";
 import SimpleSlider from "../../components/slider/slider";
 import RestaurantCard from "../../components/user/RestaurantCard";
-import { axiosInstance } from "../../config/axiosInstance";
+import { useNavigate } from "react-router-dom";
+
 import useFetch from "../../hooks/UseFetch";
 
-var settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 5,
-  slidesToScroll: 1,
-  autoplay:true,
-  autoplaySpeed:2000,
-  navigator:true,
-};
-
-const data = [];
 const Home = () => {
-    const [restaurants,isLoading,error] = useFetch('/restaurant/')
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCuisine, setSelectedCuisine] = useState("all");
+
+  // Fetch restaurants based on the search query and cuisine filter
+  const [restaurants, isLoading, error] = useFetch("/restaurant/", {
+    cuisine: selectedCuisine !== "all" ? selectedCuisine : undefined,
+  });
+
+  const navigate = useNavigate();
+
+  // Function to handle search input change
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  // Function to navigate to the restaurant page
+  const handleRestaurantClick = (id) => {
+    navigate(`/restaurantPage/${id}`);
+  };
+
+  // Filtered restaurants based on search query (only for the search results)
+  const filteredRestaurants = restaurants?.filter((restaurant) =>
+    restaurant.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
-      <div className="cover flex items-center justify-center  ">
+      <div className="cover flex items-center justify-center relative">
         <div className="">
           <input
-            type="text bg-white text-black"
-            className="search p-4 rounded-5 "
-            placeholder="Search for Resturant,item or more "
-          ></input>
+            type="text"
+            className="search p-4 rounded-5 focus:outline-none"
+            placeholder="Search for Restaurant, item or more"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
           <CiSearch
             style={{ color: "black" }}
-            className=" size-5 relative inline-block -left-12  inset-y-0"
+            className="size-5 relative inline-block -left-12 inset-y-0"
           />
+
+          {/* Search Results Display Below the Search Bar */}
+          {searchQuery && (
+            <div className="search-results absolute bg-white w-96 mt-2 p-4 rounded-md shadow-lg">
+              <h2 className="font-bold text-xl">Search Results:</h2>
+              <div className="flex flex-wrap mt-2">
+                {filteredRestaurants?.length ? (
+                  filteredRestaurants.map((item) => (
+                    <div
+                      key={item._id}
+                      className="restaurant-item cursor-pointer"
+                      onClick={() => handleRestaurantClick(item._id)}
+                    >
+                      <p className="text-blue-500 cursor-pointer">
+                        {item.name}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No results found.</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="container flex-wrap  mx-auto mt-3">
-        <h1 className="font-bold text-2xl my-5">Order our best food options</h1>
-        
-        <SimpleSlider
-          data={Data}
-          settings={settings}
-          renderItem={(item) => (
-            <Card  key={item._id} data={item}  />
-          )}
-        />
-        
-        <h1 className="mt-5 font-bold text-2xl">Restaurants</h1>
-        <div className='flex flex-wrap md:gap-10 mt-5'> 
-              {restaurants?.map((item)=> (
-                <RestaurantCard data={item} key={item._id}/>
-              ))}
-            </div>
-      </div>  
-      
+      {/* Display Full List of Restaurants Below the Search Results */}
+      <div className="container mx-auto mt-3">
+        <div>
+          <h1 className="font-bold text-2xl py-10">
+            Order our best food options
+          </h1>
+          <SimpleSlider data={Data} />
+        </div>
+        <div>
+          <h1 className="mt-5 font-bold text-2xl">Restaurants</h1>
+          <div className="flex flex-col md:flex-row md:gap-10 mt-5 gap-4">
+            {/* Display full restaurant list, unaffected by search */}
+            {restaurants?.map((item) => (
+              <RestaurantCard
+                data={item}
+                key={item._id}
+                onClick={() => handleRestaurantClick(item._id)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

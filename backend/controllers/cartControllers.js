@@ -12,9 +12,8 @@ exports.addToCart = async (req, res) => {
     if (!menuItem) {
       return res.status(404).json({ message: "Menu item not found" });
     }
-    
     const itemPrice = menuItem.price * quantity;
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ userId ,cartStatus: { $ne: "ordered" } });
     if (cart && cart.restaurantId.toString() !== restaurantId) {
       return res
         .status(409)
@@ -74,7 +73,7 @@ exports.addQuantity = async (req, res) => {
         .status(400)
         .json({ message: "Invalid action. Use 'increment' or 'decrement'." });
     }
-    const cart = await Cart.findOne({ userId })
+    const cart = await Cart.findOne({ userId,cartStatus: { $ne: "ordered" } })
       .populate("items.foodId", "name image price")
       .populate("userId", "name")
       .populate("restaurantId", "name location");
@@ -116,11 +115,10 @@ exports.getCart = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const cart = await  Cart.findOne({ userId }).populate("items.foodId", "name image price", null, { lean: true });
+    const cart = await  Cart.findOne({ userId ,cartStatus: { $ne: "ordered" } }).populate("items.foodId", "name image price", null, { lean: true });
     if (!cart) {
       return res.status(404).json({ message: "Cart is empty" });
     }
-
     res.status(200).json({message:"cart items fetched",data:cart});
   } catch (error) {
     res.status(500).json({ message:error.message});
@@ -133,17 +131,13 @@ exports.getCart = async (req, res) => {
   exports.deleteCartItem = async (req, res) => {
     try {
       const userId = req.user.id;
-      console.log("userrrrrrrrr",userId);
-      
       const { id:foodId } = req.params;
-      console.log("foooooooooood",foodId);
-      
+
   
-      const cart = await Cart.findOne({ userId });
+      const cart = await Cart.findOne({ userId ,cartStatus: { $ne: "ordered" }});
       if (!cart) {
         return res.status(404).json({ message: "Cart not found" });
       }
-  
       const itemIndex = cart.items.findIndex(
         (item) => item.foodId._id.toString() === foodId
       );
@@ -156,7 +150,7 @@ exports.getCart = async (req, res) => {
         );
         cart.finalPrice = cart.totalPrice;
         if (cart.items.length === 0) {
-          await Cart.findOneAndDelete({ userId }); // Delete the entire cart if no items are left
+          await Cart.findOneAndDelete({ userId,cartStatus: { $ne: "ordered" } });
           return res.status(200).json({ message: "Cart deleted" });
         }
         await cart.save();
@@ -168,5 +162,5 @@ exports.getCart = async (req, res) => {
       return res.status(500).json({ message: error.message });
     }
   };
-  
+
   
