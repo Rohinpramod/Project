@@ -1,6 +1,6 @@
 const express = require('express');
 const { createOrder, getAllOrders, getOrderById, getAllRestaurantOrders, updateOrderUser, updateOrderStatus } = require('../controllers/orderController');
-const { createPayment, verifyPayment } = require('../controllers/paymentController');
+const { createPayment, verifyPayment, getPayments } = require('../controllers/paymentController');
 const roleMiddleware = require('../middlewares/roleMiddleware');
 const router = express.Router();
 
@@ -13,5 +13,6 @@ router.get('/get-all-restaurant-orders/:restaurantId',getAllRestaurantOrders);
 
 router.post('/:orderId/payment',createPayment);
 router.post('/verify-payment',verifyPayment);
+router.get('/get-all-payments',getPayments);
 
 module.exports = router;
