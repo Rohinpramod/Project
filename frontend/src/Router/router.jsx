@@ -18,7 +18,6 @@ import CheckoutPage from "../pages/User/CheckoutPage/CheckoutPage";
 import ReviewPage from "../pages/User/ReviewPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import ProfilePage from "../pages/User/Profile/Profile";
-import AdminLayout from "../layout/AdminLayout";
 import Invoice from "../pages/User/CheckoutPage/Invoice";
 
 const router = createBrowserRouter([
