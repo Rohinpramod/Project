@@ -19,6 +19,7 @@ import ReviewPage from "../pages/User/ReviewPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import ProfilePage from "../pages/User/Profile/Profile";
 import AdminLayout from "../layout/AdminLayout";
+import Invoice from "../pages/User/CheckoutPage/Invoice";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
           {
             path:"checkout",
             element:<CheckoutPage />
+          },
+          {
+            path:"invoice/:orderId",
+            element:<Invoice />
           },
          
         ]

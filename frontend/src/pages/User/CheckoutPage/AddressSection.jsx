@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
-const AddressSection = ({ savedAddresses }) => {
+const AddressSection = ({
+  savedAddresses,
+  selectedAddressId,
+  setSelectedAddressId,
+}) => {
   const [address, setAddress] = useState({
     name: "",
     street: "",
@@ -9,7 +13,6 @@ const AddressSection = ({ savedAddresses }) => {
     zip: "",
   });
   const [useSavedAddress, setUseSavedAddress] = useState(false);
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
 
   const handleAddressChange = (e) => {
     const { name, value } = e.target;

@@ -27,21 +27,6 @@ const ProfilePage = () => {
 
       {/* Profile Content */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Favorite Dishes
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-bold mb-4">Favorite Dishes</h2>
-          <ul className="text-gray-600 space-y-4">
-            <li className="flex items-center gap-4">
-              <img
-                className="w-16 h-16 rounded-md"
-                src={""}
-                alt="Pizza"
-              />
-              <span>Margherita Pizza</span>
-            </li>
-          </ul>
-        </div> */}
-
         {/* Orders */}
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-lg font-bold mb-4">Your Orders</h2>

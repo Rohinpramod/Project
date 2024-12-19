@@ -1,4 +1,5 @@
 const Cart = require('../models/cartModel');
+const Coupon = require('../models/couponModel');
 const coupon = require('../models/couponModel');
 const Order = require('../models/orderModel');
 
@@ -14,31 +15,33 @@ const ORDER_STATUS = [
 exports.createOrder = async (req, res) => {
     try {
         const user = req.user.id
+
+
         const {
             restaurant,
             cartId,
             coupon,
             deliveryAddress,
         } = req.body;
+        const findCoupon = await Coupon.findOne({ code:coupon }); 
         let order = await Order.findOne({user})
-        if (!order || order.status !== "pending") {
+        // if (!order || order.status !== "pending") {
             order = new Order({
               user,
               restaurant,
               cartId,
-              coupon,
+              coupon:findCoupon?._id,
               deliveryAddress,
             });
-          } else {
-            return res.status(400).json({ message: "An order is already in pending status" });
-          }
+          // } else {
+          //   return res.status(400).json({ message: "An order is already in pending status" });
+          // }
         await order.save();
         res.status(201).json({ message: "Order created successfully", order: order });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 
 exports.getAllOrders = async (req,res)=>{
@@ -66,15 +69,24 @@ exports.getAllOrders = async (req,res)=>{
       const order = await Order.findOne({_id:orderId}, {user: user})
         .populate("user", "name email phone")
         .populate("restaurant", "name location")
-        .populate("cartId", "items totalPrice")
+        .populate({
+          path: "cartId",
+          select: "items totalPrice",
+          populate: {
+            path: "items.foodId",
+            select: "name",
+          },
+        })
         .populate("coupon", "code discountPercentage maxDiscountValue")
-        .populate("deliveryAddress", "street city state zipCode"); 
+        .populate("deliveryAddress", "street city state zipCode")
     
         if (!order) {
         return res.status(404).json({ message: "Order not found." });
       }
       res.status(200).json({ message: "Order retrieved successfully", order });
     } catch (error) {
+      console.log(error);
+      
       res.status(500).json({ message: error.message });
     }
   };

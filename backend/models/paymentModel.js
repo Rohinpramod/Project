@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const paymentSchema = new mongoose.Schema({
-    orderId: { type: String, required:true},
-    user: { type: String, required:true},
+    orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     amount: { type: Number, required: true },
     status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
     transactionId: { type: String }, 

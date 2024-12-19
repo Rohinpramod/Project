@@ -19,15 +19,13 @@ const CartPage = () => {
       const response = await axiosInstance({
         url: "/cart/get-cart-items",
       });
-      console.log("responseeeeeee", response);
-      setCartItems(response?.data.data || null); // Set cartItems or null if cart is empty
+      setCartItems(response?.data.data || null); 
       setLoading(false);
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchCartItems();
   }, []);

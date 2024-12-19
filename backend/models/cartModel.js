@@ -44,7 +44,11 @@ const cartSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    cartStatus:{
+      type: String,
+    }
   },
+
   { timestamps:true }
 );
 
