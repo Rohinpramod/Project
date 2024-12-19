@@ -11,7 +11,7 @@ const router = express.Router();
 router.post('/', authMiddleware,roleMiddleware(['admin', 'restaurant manager']),upload.single('image'), createRestaurant);
 router.get('/', getRestaurants);
 router.get('/:restaurantId', getRestaurantById);
-router.patch('/:restaurantId', authMiddleware, roleMiddleware(['restaurant manager']), updateRestaurant);
+router.patch('/:restaurantId', authMiddleware, roleMiddleware(['restaurant manager',"admin"]), updateRestaurant);
 router.delete('/:restaurantId', authMiddleware,roleMiddleware(['admin']),deleteRestaurant);
 
 
