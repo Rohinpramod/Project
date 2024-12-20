@@ -6,7 +6,8 @@ const MenuItem = require("../models/menuItemModel");
 
 exports.createRestaurant = async (req, res) => {
   try {
-    const { name, location, cuisine, rating, status, contact } = req.body;
+    const { name, location, cuisine, status, contact } = req.body;
+
     if (!name || !cuisine) {
       return res.status(400).json({ message: "all fields required" });
     }
@@ -31,6 +32,7 @@ exports.createRestaurant = async (req, res) => {
       cuisine,
       owner: req.user.userId,
       image: imageUrl,
+      contact,
     });
 
     await restaurant.save();

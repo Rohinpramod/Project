@@ -14,15 +14,18 @@ const orderRoutes = require('./routes/orderRouter');
 const authMiddleware = require("./middlewares/authMiddleware");
 const roleMiddleware = require("./middlewares/roleMiddleware");
 
-
+const dotenv = require('dotenv');
+dotenv.config();
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser()); 
 app.use(cors({
-    origin:"http://localhost:5174",
+    origin:[process.env.CLIENT_URL,process.env.ADMIN_URL],
     credentials:true,
-    method: ["GET","POST","PUT","PATCH","DELETE"]
+    method: ["GET","POST","PUT","PATCH","DELETE"],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+
 }));
 
 

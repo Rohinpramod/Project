@@ -24,7 +24,6 @@ const UserLayout= () => {
         method:"GET",
         url:"/user/check-user",
       });
-      
       dispatch(saveUserData());
     }catch(error){
       dispatch(clearUserData());

@@ -4,7 +4,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import logo from '../../assets/images/logo.png';
+import logo from '/logo.png';
 import { axiosInstance } from '../../config/axiosInstance';
 import toast from 'react-hot-toast';
 

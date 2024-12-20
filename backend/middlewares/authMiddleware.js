@@ -4,6 +4,7 @@ module.exports = (req, res, next) => {
   try {
     console.log("request",req);
     const token = req.cookies.token;
+    console.log(token)
     if (!token) {
         return res.status(401).json({ message: "Unauthorized: No token provided" });
     }

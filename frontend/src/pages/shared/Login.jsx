@@ -4,29 +4,25 @@ import { Link, useNavigate } from 'react-router-dom';
 import {useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-const Login = ({ isOpen, onClose, onOpenSignUp, role = "user" }) => {
+const Login = ({ isOpen, onClose, onOpenSignUp }) => {
   
   const {register, handleSubmit} = useForm();
   const navigate = useNavigate();
 
   const user = {
-    role:"user",
+    
     login_api:"/user/login",
     profile_route:"/",
     signup_route:{onOpenSignUp},
   };
   
-  if (role === "admin") {
-    user.role = "admin";
-    (user.login_api = `/admin/login`), (user.profile_route = "/admin/profile"), (user.signup_route = `/admin/${onOpenSignUp}`);
-}
-
   console.log("user==",user);
 
   const onSubmit = async (data) => {
+    console.log("dataaa",data)
     try {
         
-        const response = await axiosInstance({ method: "POST", url: user.login_api, data });
+        const response = await axiosInstance.request({ method: "POST", url: user.login_api, data });
         console.log("response===",response);
 
         toast.success("Log-in success");

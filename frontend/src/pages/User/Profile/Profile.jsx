@@ -49,7 +49,7 @@ const ProfilePage = () => {
                   </p>
                   <p>
                     <span className="font-medium">Restaurant:</span>{" "}
-                    {order.restaurant.name}
+                    {order.restaurant?.name}
                   </p>
                   <p>
                     <span className="font-medium">Status:</span> {order.status}
