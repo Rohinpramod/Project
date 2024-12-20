@@ -20,7 +20,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser()); 
 app.use(cors({
-    origin:["https://gourment-food-delivery.vercel.app","http://localhost:5173"],
+    origin:["https://gourment-food-delivery.vercel.app","https://vercel.com/rohinpramods-projects/gourment-admin-dashboard"],
     credentials:true,
     method: ["GET","POST","PUT","PATCH","DELETE"],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
