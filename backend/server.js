@@ -23,7 +23,7 @@ app.use(cors({
     origin:["https://gourment-food-delivery.vercel.app","https://vercel.com/rohinpramods-projects/gourment-admin-dashboard"],
     credentials:true,
     method: ["GET","POST","PUT","PATCH","DELETE"],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
 
 }));
 
