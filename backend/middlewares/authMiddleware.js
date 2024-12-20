@@ -2,20 +2,16 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
   try {
+    console.log("request",req);
     const token = req.cookies.token;
-
     if (!token) {
         return res.status(401).json({ message: "Unauthorized: No token provided" });
     }
-
     const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
-
     if(!tokenDecoded){
         return res.status(401).json({ message: "user not autherized" });
     }
-
     req.user = tokenDecoded;
-
     next();
 
 } catch (error) {

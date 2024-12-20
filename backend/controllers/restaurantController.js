@@ -7,20 +7,20 @@ const MenuItem = require("../models/menuItemModel");
 exports.createRestaurant = async (req, res) => {
   try {
     const { name, location, cuisine, rating, status, contact } = req.body;
-
     if (!name || !cuisine) {
       return res.status(400).json({ message: "all fields required" });
     }
     //clodinaryupload
-
+    console.log("req.file",req.file);
     let imageUrl;
     if (req.file) {
       const uploadResponse = await cloudinaryInstance.uploader.upload(
         req.file.path
       );
       imageUrl = uploadResponse.url;
+      console.log(imageUrl);
+      
     }
-
     let restaurant = await Restaurant.findOne({ name });
     if (restaurant)
       return res.status(400).json({ message: "Restaurant already exists" });
@@ -37,6 +37,7 @@ exports.createRestaurant = async (req, res) => {
 
     res.status(201).json(restaurant);
   } catch (error) {
+    console.log(error); 
     res.status(500).json({ message: error.message });
   }
 };
@@ -82,14 +83,19 @@ exports.updateRestaurant = async (req, res) => {
     const restaurant = await Restaurant.findById(req.params.restaurantId);
     if (!restaurant)
       return res.status(404).json({ message: "Restaurant not found" });
-
-    Object.assign(restaurant, req.body);
+    let imageUrl = restaurant.image; 
+    if (req.file) {
+      const uploadResponse = await cloudinaryInstance.uploader.upload(req.file.path);
+      imageUrl = uploadResponse.url; 
+    }
+    Object.assign(restaurant, { ...req.body, image: imageUrl });
     await restaurant.save();
     res.json(restaurant);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 exports.deleteRestaurant = async (req, res) => {
   try {
