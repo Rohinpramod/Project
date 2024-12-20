@@ -22,7 +22,8 @@ app.use(cookieParser());
 app.use(cors({
     origin:["https://gourment-food-delivery.vercel.app","http://localhost:5173"],
     credentials:true,
-    method: ["GET","POST","PUT","PATCH","DELETE"]  
+    method: ["GET","POST","PUT","PATCH","DELETE"],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 
 }));
 
