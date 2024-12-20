@@ -61,7 +61,7 @@ const OrderDetails = () => {
               </p>
               <p className="text-gray-600">
                 Restaurant:{" "}
-                <span className="font-medium">{order.restaurant.name}</span>
+                <span className="font-medium">{order.restaurant?.name}</span>
               </p>
               <p className="text-gray-600">
                 Delivery Address:{" "}
@@ -77,7 +77,7 @@ const OrderDetails = () => {
                 <ul className="list-disc pl-6 space-y-2 mt-2">
                   {order.cartId?.items?.map((item) => (
                     <li key={item._id} className="text-gray-600">
-                      <span className="font-medium">{item.foodId.name}</span> -{" "}
+                      <span className="font-medium">{item.foodId?.name}</span> -{" "}
                       {item.quantity} x ₹{item.totalItemPrice}
                     </li>
                   ))}
@@ -85,10 +85,10 @@ const OrderDetails = () => {
               </div>
               <div className="mt-4 flex justify-between">
                 <p className="text-xl font-semibold text-gray-800">
-                  Total Amount: ₹{order.totalAmount}
+                  Total Amount: ₹{order?.totalAmount}
                 </p>
                 <p className="text-xl font-semibold text-gray-800">
-                  Final Price (after discount): ₹{order.finalPrice}
+                  Final Price (after discount): ₹{order?.finalPrice}
                 </p>
               </div>
             </div>
