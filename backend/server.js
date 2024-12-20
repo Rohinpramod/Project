@@ -14,13 +14,14 @@ const orderRoutes = require('./routes/orderRouter');
 const authMiddleware = require("./middlewares/authMiddleware");
 const roleMiddleware = require("./middlewares/roleMiddleware");
 
-
+const dotenv = require('dotenv');
+dotenv.config();
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser()); 
 app.use(cors({
-    origin:["https://gourment-food-delivery.vercel.app","https://vercel.com/rohinpramods-projects/gourment-admin-dashboard"],
+    origin:[process.env.CLIENT_URL,process.env.ADMIN_URL],
     credentials:true,
     method: ["GET","POST","PUT","PATCH","DELETE"],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
