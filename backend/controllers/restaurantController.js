@@ -73,7 +73,6 @@ exports.getRestaurantById = async (req, res) => {
     ).populate("menuItems");
     if (!restaurant)
       return res.status(404).json({ message: "Restaurant not found" });
-
     res.json(restaurant);
   } catch (error) {
     res.status(500).json({ message: error.message });

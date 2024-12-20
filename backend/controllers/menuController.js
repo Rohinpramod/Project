@@ -140,21 +140,32 @@ exports.updateMenuItem = async (req, res) => {
   }
 };
 
+
+
 exports.deleteMenuItem = async (req, res) => {
-  try{
+  try {
     const { menuItemId, restaurantId } = req.params;
-    if(!menuItemId){
+
+    if (!menuItemId) {
       return res.status(400).json({ message: "Menu item ID is required" });
     }
-    const deleteMenuItem = await MenuItem.findByIdAndDelete({
-      _id: menuItemId,
-      restaurant: restaurantId,
-    });
-    if(!deleteMenuItem){
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+    const menuItemIndex = restaurant.menuItems.indexOf(menuItemId);
+    if (menuItemIndex === -1) {
       return res.status(404).json({ message: "Menu item not found in the specified restaurant" });
     }
-    res.status(200).json({ message: "Menu item deleted" });
-  }catch (error) {
+    restaurant.menuItems.splice(menuItemIndex, 1);
+    await restaurant.save(); 
+    const deletedMenuItem = await MenuItem.findByIdAndDelete(menuItemId);
+    if (!deletedMenuItem) {
+      return res.status(404).json({ message: "Menu item not found" });
+    }
+
+    res.status(200).json({ message: "Menu item deleted from restaurant and MenuItem collection" });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
