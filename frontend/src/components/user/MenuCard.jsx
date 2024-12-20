@@ -19,8 +19,8 @@ const MenuCard = ({ menucard }) => {
   };
 
   return (
-    <div className="">
-      <div className="bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-white border  border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div className="">
         <figure className="overflow-hidden rounded-t-lg h-48 bg-gray-100">
           <img
             className="w-full h-full object-cover"

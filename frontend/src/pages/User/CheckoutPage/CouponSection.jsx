@@ -9,7 +9,6 @@ function CouponSection({
   selectedCoupon,
   setSelectedCoupon,
 }) {
-  // const [coupon, setSelectedCoupon] = useState("");
   const [loading, setLoading] = useState(false);
   const [viewCoupons, setViewCoupons] = useState(false);
   const [coupons, isLoading, error] = useFetch("/coupon/get-coupon");
@@ -21,7 +20,7 @@ function CouponSection({
 
   const applyCoupon = async (code) => {
     setLoading(true);
-    setSelectedCoupon(code)
+    setSelectedCoupon(code);
     try {
       const response = await axiosInstance.post("/coupon/apply-coupon", {
         code,
@@ -33,7 +32,6 @@ function CouponSection({
         Toast.success(
           `Coupon applied! Discount: ₹${discount}. Final Price: ₹${finalPrice}`
         );
-        // Pass the discount and final price back to parent component
         onDiscountApplied(discount, finalPrice);
       } else {
         Toast.error(response.message || "Invalid coupon code.");
@@ -67,13 +65,12 @@ function CouponSection({
           type="button"
           onClick={handleApplyCoupon}
           disabled={loading}
-          className={`px-4 py-2 ${
-            loading ? "bg-gray-400" : "bg-orange-400"
-          } text-white rounded`}
+          className={`hidden lg:block px-4 py-2 ${loading ? "bg-gray-400" : "bg-orange-400"} text-white rounded`}
         >
           {loading ? "Validating..." : "Apply Coupon"}
         </button>
       </div>
+
       <p
         className="text-sm text-blue-500 cursor-pointer"
         onClick={handleViewCoupons}
@@ -92,7 +89,7 @@ function CouponSection({
                   <li
                     key={coupon._id}
                     className="border p-4 rounded cursor-pointer hover:bg-gray-100"
-                    onClick={() => applyCoupon(coupon.code)} // Apply coupon on click
+                    onClick={() => applyCoupon(coupon.code)}
                   >
                     <div className="flex justify-between items-center">
                       <span className="font-medium">{coupon.code}</span>
@@ -120,6 +117,18 @@ function CouponSection({
       ) : (
         <div className="mt-4 text-gray-500">No available coupons.</div>
       )}
+
+      {/* Apply Coupon Button at the bottom for small screens */}
+      <div className="sm:hidden mt-4">
+        <button
+          type="button"
+          onClick={handleApplyCoupon}
+          disabled={loading}
+          className={`w-full px-4 py-2 ${loading ? "bg-gray-400" : "bg-orange-400"} text-white rounded`}
+        >
+          {loading ? "Validating..." : "Apply Coupon"}
+        </button>
+      </div>
     </div>
   );
 }

@@ -7,11 +7,8 @@ function Invoice() {
   const { orderId } = useParams();
   const { state } = useLocation();
   const discount = state?.discount;
-  console.log(discount, "diddddddddddddddddddddddd");
 
-  const [order, isLoading, error] = useFetch(
-    `/order/get-order-by-id/${orderId}`
-  );
+  const [order, isLoading, error] = useFetch(`/order/get-order-by-id/${orderId}`);
   const orderData = order?.order;
 
   if (isLoading) {
@@ -60,43 +57,48 @@ function Invoice() {
 
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Items</h2>
-        <table className="table-auto w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 px-4 py-2">Description</th>
-              <th className="border border-gray-300 px-4 py-2">Quantity</th>
-              <th className="border border-gray-300 px-4 py-2">Price</th>
-              <th className="border border-gray-300 px-4 py-2">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orderData.cartId.items.map((item) => (
-              <tr key={item._id}>
-                <td className="border border-gray-300 px-4 py-2">
-                  {item.foodId.name}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {item.quantity}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  ₹{(item.totalItemPrice / item.quantity).toFixed(2)}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  ₹{item.totalItemPrice.toFixed(2)}
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-gray-300 px-4 py-2">Description</th>
+                <th className="border border-gray-300 px-4 py-2">Quantity</th>
+                <th className="border border-gray-300 px-4 py-2">Price</th>
+                <th className="border border-gray-300 px-4 py-2">Total</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {orderData.cartId.items.map((item) => (
+                <tr key={item._id}>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {item.foodId.name}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {item.quantity}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    ₹{(item.totalItemPrice / item.quantity).toFixed(2)}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    ₹{item.totalItemPrice.toFixed(2)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
       <div className="text-right mt-6">
         <div className="flex gap-2 justify-end">
-        <p>Coupon Discount :</p>
-        {discount && <p> {discount}</p>}
+          <p>Coupon Discount :</p>
+          {discount && <p>{discount}</p>}
         </div>
-      
-        <h2 className="text-xl font-semibold">Total: {orderData.finalPrice}</h2>
+        <h2 className="text-xl font-semibold">
+          Total: ₹{orderData.finalPrice.toFixed(2)}
+        </h2>
       </div>
+
       {/* Home Button */}
       <div className="mb-4">
         <button

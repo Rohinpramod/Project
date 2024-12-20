@@ -4,13 +4,16 @@ import useFetch from "../../hooks/UseFetch";
 const OrderDetails = () => {
   const [orderData, loading, errors] = useFetch("/order/get-all-order");
   const orders = orderData?.orders;
+  
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
+
   // Calculate the index range for the current page
   const indexOfLastOrder = currentPage * itemsPerPage;
   const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
   const currentOrders = orders?.slice(indexOfFirstOrder, indexOfLastOrder);
+
   // Check for loading and errors before rendering orders
   if (loading) {
     return (
@@ -26,6 +29,7 @@ const OrderDetails = () => {
       </div>
     );
   }
+
   // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -45,25 +49,25 @@ const OrderDetails = () => {
           {currentOrders.map((order) => (
             <div
               key={order._id}
-              className="bg-white shadow-md rounded-lg p-6 mb-6"
+              className="bg-white shadow-md rounded-lg p-6 mb-6 sm:p-8"
             >
-              <h2 className="text-2xl font-semibold text-gray-700">
+              <h2 className="text-sm font-semibold text-gray-700">
                 Order #{order._id}
               </h2>
-              <p className="text-gray-600 mt-2">
+              <p className="text-gray-600 mt-2 text-sm ">
                 Status:{" "}
                 <span className="font-medium text-green-600">
                   {order.status}
                 </span>
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm">
                 Date: {new Date(order.createdAt).toLocaleDateString()}
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm">
                 Restaurant:{" "}
-                <span className="font-medium">{order.restaurant?.name}</span>
+                <span className="font-medium ">{order.restaurant?.name}</span>
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm">
                 Delivery Address:{" "}
                 {order.deliveryAddress
                   ? `${order.deliveryAddress.street}, ${order.deliveryAddress.city}, ${order.deliveryAddress.state}`
@@ -84,10 +88,10 @@ const OrderDetails = () => {
                 </ul>
               </div>
               <div className="mt-4 flex justify-between">
-                <p className="text-xl font-semibold text-gray-800">
+                <p className="text-sm font-semibold  text-gray-800">
                   Total Amount: ₹{order?.totalAmount}
                 </p>
-                <p className="text-xl font-semibold text-gray-800">
+                <p className="text-sm font-semibold text-gray-800">
                   Final Price (after discount): ₹{order?.finalPrice}
                 </p>
               </div>

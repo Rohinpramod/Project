@@ -18,7 +18,7 @@ const AboutPage = () => {
         <h2 className="text-2xl font-bold mb-4">Our Story</h2>
         <p className="text-gray-700 leading-7">
           At <span className="font-semibold">Gourment</span>, we believe that good food can
-          create unforgettable moments. Founded in 2020, we started with a simple mission: to make
+          create unforgettable moments. Founded in 2024, we started with a simple mission: to make
           quality meals accessible to everyone. Whether it’s a cozy dinner at home or a celebration
           with friends, we deliver a variety of dishes right to your doorstep.
         </p>
@@ -65,44 +65,7 @@ const AboutPage = () => {
         </ul>
       </div>
 
-      {/* Our Team Section */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-8 text-center">Meet Our Team</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          {/* Team Member 1 */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Team Member 1"
-              className="w-24 h-24 mx-auto rounded-full mb-4"
-            />
-            <h3 className="font-bold text-lg">John Smith</h3>
-            <p className="text-gray-600">Founder & CEO</p>
-          </div>
-
-          {/* Team Member 2 */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Team Member 2"
-              className="w-24 h-24 mx-auto rounded-full mb-4"
-            />
-            <h3 className="font-bold text-lg">Emily Davis</h3>
-            <p className="text-gray-600">Head Chef</p>
-          </div>
-
-          {/* Team Member 3 */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Team Member 3"
-              className="w-24 h-24 mx-auto rounded-full mb-4"
-            />
-            <h3 className="font-bold text-lg">Mark Taylor</h3>
-            <p className="text-gray-600">Operations Manager</p>
-          </div>
-        </div>
-      </div>
+      
 
       {/* Footer Section */}
       <div className="mt-12 bg-orange-400 text-white py-6 text-center rounded-lg shadow-md">
