@@ -33,6 +33,7 @@ function UserHeader() {
     }
   };
 
+  
   return (
     <Disclosure as="nav" className="bg-orange-400">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -114,12 +115,13 @@ function UserHeader() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <p
-                    onClick={userLogout}
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-                  >
-                    Sign out
-                  </p>
+                <button
+                onClick={userLogout}
+                className="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-none"
+              >
+                Sign out
+              </button>
+
                 </MenuItem>
               </MenuItems>
             </Menu>

@@ -72,11 +72,11 @@ const RestaurantPage = () => {
               Order Online
             </button>
             </Link>
-            <Link to={`/review/${id}`}>
+            {/* <Link to={`/review/${id}`}>
             <button className="bg-orange-400 text-white ms-3 px-6 py-2 rounded-lg">
               Review
             </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
