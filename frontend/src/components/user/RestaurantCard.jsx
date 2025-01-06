@@ -15,7 +15,8 @@ const RestaurantCard = ({ data }) => {
             <h2 className="text-white text-xl font-semibold">{data.name}</h2>
             <div className="flex items-center justify-between text-sm text-gray-300 mt-1">
               <h4>{data.location}</h4>
-              <h4>{data.rating}</h4>
+              {/* <h4>{data.rating}</h4> */}
+              <h3 className="font-bold">{data.status}</h3>
             </div>
           </div>
         </div>
