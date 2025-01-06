@@ -8,7 +8,7 @@ import SignUpPage from '../../pages/shared/Signup';
 
 const navigation = [
   // { name: 'Dashboard', href: '#', current: true },
-  { name: 'Home', href: '#', current: false },
+  // { name: 'Home', href: '#', current: false },
   { name: 'About Us', href: '/about', current: false },
   { name: 'Restaurants', href: '/all-restuarant', key: 'restaurants' },
 
