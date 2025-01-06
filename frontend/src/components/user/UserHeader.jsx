@@ -25,6 +25,7 @@ function UserHeader() {
   const userLogout = async () => {
     try {
       await axiosInstance({ method: "PUT", url: 'user/logout' });
+      localStorage.clear();
       toast.success("Logout successfully");
       navigate('/');
       window.location.reload()
