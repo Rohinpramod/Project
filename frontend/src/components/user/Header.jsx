@@ -7,9 +7,9 @@ import LoginPage from '../../pages/shared/Login';
 import SignUpPage from '../../pages/shared/Signup';
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
+  // { name: 'Dashboard', href: '#', current: true },
   { name: 'Home', href: '#', current: false },
-  { name: 'About Us', href: '#', current: false },
+  { name: 'About Us', href: '/about', current: false },
 ];
 
 function classNames(...classes) {
