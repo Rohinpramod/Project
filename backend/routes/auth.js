@@ -1,5 +1,5 @@
 const express = require('express');
-const { signup, login, getProfile, resetPassword, logout, profileUpdate, checkUser, deleteUserAccount } = require('../controllers/authControllers');
+const { signup, login, getProfile, resetPassword, logout, profileUpdate, checkUser, deleteUserAccount, getUsers } = require('../controllers/authControllers');
 const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
@@ -15,4 +15,5 @@ router.delete('/delete-account',authMiddleware,deleteUserAccount);
 
 router.get('/check-user',authMiddleware,checkUser)
 
+router.get('/get-users',getUsers)
 module.exports = router;
