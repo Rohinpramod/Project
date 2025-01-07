@@ -9,7 +9,7 @@ import { axiosInstance } from '../../config/axiosInstance';
 import toast from 'react-hot-toast';
 
 const navigation = [
-  { name: 'Home', href: '/', key: 'dashboard' },
+  // { name: 'Home', href: '/', key: 'dashboard' },
   { name: 'About Us', href: '/about', key: 'about' },
   { name: 'Restaurants', href: '/all-restuarant', key: 'restaurants' },
 ];
@@ -36,7 +36,7 @@ function UserHeader() {
 
   
   return (
-    <Disclosure as="nav" className="bg-orange-400">
+    <Disclosure as="nav" className="bg-orange-600">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Mobile Menu Button */}
@@ -66,8 +66,8 @@ function UserHeader() {
                     className={classNames(
                       location.pathname === item.href
                         ? 'bg-gray-50 text-black transition ease-in-out delay-1'
-                        : 'hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300',
-                      'rounded-md px-3 py-2 text-sm font-medium'
+                        : 'hover:-translate-y-1 text-white hover:scale-110  duration-300',
+                      'rounded-md px-3 py-2 text-sm font-medium   '
                     )}
                     aria-current={location.pathname === item.href ? 'page' : undefined}
                   >
@@ -82,7 +82,7 @@ function UserHeader() {
           <div className="flex items-center ml-auto space-x-4 mx-3">
             <button
               type="button"
-              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              className="relative rounded-full ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-300 ...  p-1 text-white "
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
@@ -95,7 +95,7 @@ function UserHeader() {
             {/* Profile Dropdown */}
             <Menu as="div" className="relative">
               <div>
-                <MenuButton className="relative flex transition ease-in-out delay-150 bg-gray-900 rounded-lg hover:-translate-y-1 hover:scale-110 hover:bg--500 duration-300 ... ">
+                <MenuButton className="relative flex transition ease-in-out delay-150 rounded-lg hover:-translate-y-1 hover:scale-110  duration-300 ... ">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   <FaUserCircle style={{ color: 'white' }} className="size-6 " />

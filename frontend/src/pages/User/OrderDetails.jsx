@@ -115,7 +115,7 @@ const OrderDetails = () => {
                 onClick={() => handlePageChange(index + 1)}
                 className={`px-4 py-2 mx-1 rounded-lg text-gray-800 font-semibold hover:bg-orange-500 hover:text-white transition-all ${
                   currentPage === index + 1
-                    ? "bg-orange-400 text-white"
+                    ? "bg-orange-600 text-white"
                     : "bg-gray-200"
                 }`}
               >

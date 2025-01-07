@@ -55,25 +55,25 @@ const RestaurantPage = () => {
         {/* <p  className="text-gray-600 ">{restaurantDetails.location}</p> */}
         <p className="text-gray-600 ">Status: {restaurantDetails.status}</p>
         <div className="rating mt-2">
-        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
+        <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-400" />
         <input
           type="radio"
           name="rating-2"
-          className="mask mask-star-2 bg-orange-400"
+          className="mask mask-star-2 bg-yellow-400"
           defaultChecked />
-        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
-        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
-        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
+        <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-400" />
+        <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-400" />
+        <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-400" />
       </div>
 
           <div className="mt-6">
             <Link to={``}>
-            <button className="bg-orange-400 text-white px-6 py-2 rounded-lg">
+            <button className="bg-orange-600 text-white px-6 py-2 rounded-lg">
               Order Online
             </button>
             </Link>
             {/* <Link to={`/review/${id}`}>
-            <button className="bg-orange-400 text-white ms-3 px-6 py-2 rounded-lg">
+            <button className="bg-orange-600 text-white ms-3 px-6 py-2 rounded-lg">
               Review
             </button>
             </Link> */}

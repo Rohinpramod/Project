@@ -25,7 +25,7 @@ const useFetch = (url, params = {}) => {
     fetchData();
   }, [url, JSON.stringify(params)]); // Dependencies include URL and parameters
 
-  return [data, isLoading, error];
+  return [data, isLoading, error,fetchData];
 };
 
 export default useFetch;

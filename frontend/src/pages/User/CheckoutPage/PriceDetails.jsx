@@ -127,7 +127,7 @@ function PriceDetails({
       <div className="mt-3 flex justify-end ">
         <button
           onClick={handleCheckout}
-          className="btn bg-orange-400 text-white font-normal hover:bg-orange-600"
+          className="btn bg-orange-600 text-white font-normal hover:bg-orange-700"
         >
           Place Order
         </button>

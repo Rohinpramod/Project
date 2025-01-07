@@ -103,7 +103,7 @@ function Invoice() {
       <div className="mb-4">
         <button
           onClick={() => navigate("/")}
-          className="bg-orange-400 text-white px-4 py-2 rounded hover:bg-orange-500"
+          className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-500"
         >
           Continue Order
         </button>

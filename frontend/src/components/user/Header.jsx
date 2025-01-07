@@ -30,7 +30,7 @@ export default function Header() {
 
   return (
     <>
-      <Disclosure as="nav" className="bg-orange-400">
+      <Disclosure as="nav" className="bg-orange-600">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             {/* Mobile Menu Button */}
