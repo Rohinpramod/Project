@@ -56,7 +56,7 @@ const Login = ({ isOpen, onClose, onOpenSignUp }) => {
             <input
               type="email"
               {...register("email")}
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-600"
               placeholder="Enter your email"
             />
           </div>
@@ -65,13 +65,13 @@ const Login = ({ isOpen, onClose, onOpenSignUp }) => {
             <input
               type="password"
               {...register("password")}
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-600"
               placeholder="Enter your password"
             />
           </div>
           <button
             type="submit "
-            className="w-full py-2 bg-orange-400 text-white font-medium rounded-md hover:bg-orange-500"
+            className="w-full py-2 bg-orange-600 text-white font-medium rounded-md hover:bg-orange-500 "
           >
             Login
           </button>
@@ -79,7 +79,7 @@ const Login = ({ isOpen, onClose, onOpenSignUp }) => {
         <p className="mt-4 text-sm text-gray-600">
           Don't have an account?{' '}
           <button
-            className="text-orange-400 hover:underline focus:outline-none"
+            className="text-orange-600 hover:underline focus:outline-none"
             onClick={() => {
               onClose(); // Close login panel
               onOpenSignUp(); // Open sign-up panel

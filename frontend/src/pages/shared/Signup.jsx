@@ -78,7 +78,7 @@ const SignUpPage = ({ isOpen, onClose }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-600"
               placeholder="Enter your name"
               required
             />
@@ -90,7 +90,7 @@ const SignUpPage = ({ isOpen, onClose }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-600"
               placeholder="Enter your email"
               required
             />
@@ -102,7 +102,7 @@ const SignUpPage = ({ isOpen, onClose }) => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-600"
               placeholder="Enter your password"
               required
             />
@@ -114,7 +114,7 @@ const SignUpPage = ({ isOpen, onClose }) => {
               name="mobile"
               value={formData.mobile}
               onChange={handleChange}
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-400"
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-600"
               placeholder="Enter your Mobile Number"
               required
             />
@@ -123,7 +123,7 @@ const SignUpPage = ({ isOpen, onClose }) => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 bg-orange-400 text-white font-medium rounded-md ${
+            className={`w-full py-2 bg-orange-600 text-white font-medium rounded-md ${
               loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-orange-500'
             }`}
           >
